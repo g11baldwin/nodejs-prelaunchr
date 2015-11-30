@@ -202,7 +202,7 @@ module.exports = {
      *    `/user
      */
     xrayvision: function (req, res) {
-        console.info("user list:", req.user);
+        console.info("user list display requested");
         User.find({}).limit(100).exec(function(err, users) {
           if(err) return res.serverError("Error on user lookup");
           return res.view('user/xrayvision', {
