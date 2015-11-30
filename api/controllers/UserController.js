@@ -52,7 +52,7 @@ module.exports = {
 
     create: function(req, res) {
       console.log('creating a new user, req.body=', req.body);
-      console.log("user create, testing for referral (ref param):", req.param('ref'));
+      console.log("user create, testing for referral (invitedByUserWithToken):", req.param('invitedByUserWithToken'));
       var retNumFriends = 0;
 
       User.findOne({
@@ -92,18 +92,18 @@ module.exports = {
               user.numberFriendsJoined = 0;
 //                        user.friendsJoinedEmails = [];
               user.enabled = true;
-              if(typeof req.invitedByUserWithToken != undefined) {
-                console.log("user created by being invited, invitedByUserWithToken:", req.invitedByUserWithToken);
-                user.invitedByUserWithToken = req.invitedByUserWithToken;
+              if(typeof req.param('invitedByUserWithToken') != "undefined") {
+                console.log("user created by being invited, invitedByUserWithToken:", req.param('invitedByUserWithToken'));
+                user.invitedByUserWithToken = req.param('invitedByUserWithToken');
 
                 // now update the user record for the user that invited us
                 User.findOne({
-                  mySharingToken : req.invitedByUserWithToken
+                  mySharingToken : req.param('invitedByUserWithToken')
                 }).exec(function(err, invitinguser) {
                   if(err) console.error('ERROR (failure on attribution for invite):', err);
                   if(invitinguser) {
                     console.log("inviting user email:", invitinguser.email);
-                    if(typeof invitinguser.numberFriendsJoined != undefined) {
+                    if(typeof invitinguser.numberFriendsJoined != "undefined") {
                       invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
                     } else {
                       invitinguser.numberFriendsJoined = 1;
@@ -161,10 +161,10 @@ module.exports = {
         console.log('queenofhearts called');
         console.log("testing for referral (ref param):", req.param('ref'));
         // redirect this to main create screen, but provide referral code as param
-        return res.view('homepagetoo', {
-           referralcode: req.param('ref'),
-           error: ''
-        });
+      return res.view('homepagetoo', {
+        referralcode: req.param('ref'),
+        error: ''
+      });
     },
 
 
@@ -201,11 +201,16 @@ module.exports = {
      *    `/user/index`
      *    `/user
      */
-    index: function (req, res) {
-        console.info("user index user:", req.user);
-        User.find({}).limit(100).done(function(err, users) {
-            if(err) return res.serverError("Error on user lookup");
-            return res.view({ admin: 'true', users: users});
+    xrayvision: function (req, res) {
+        console.info("user list:", req.user);
+        User.find({}).limit(100).exec(function(err, users) {
+          if(err) return res.serverError("Error on user lookup");
+          return res.view('user/xrayvision', {
+            users: users,
+            error: ''
+          });
+
+
         });
     },
 
