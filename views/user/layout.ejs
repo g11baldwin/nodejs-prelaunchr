@@ -16,10 +16,10 @@
 -->
 
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
   <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
   <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables_themeroller.css">
-  <link href='https://fonts.googleapis.com/css?family=Muli:400,300italic,400italic,300' rel='stylesheet' type='text/css'>
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -36,77 +36,28 @@
 
   <style>
     body {
-      /* Move content down because we have a fixed navbar that is 50px tall */
+    /* Move content down because we have a fixed navbar that is 50px tall */
       padding-top: 50px;
       padding-bottom: 20px;
     }
-      .bgimage {
+
+    .bgimage {
       background-image: url('http://localhost:1337/images/background3.png');
       background-size:cover;
       background-repeat: no-repeat;
       width: 100%;
       height: 400px;
       max-width: 1920px;
-  }
-
-    .navbar { background-color: rgb(35, 191, 197); color: #f8f8f8; }
-    .navbar-brand { background-color: rgb(35, 191, 197); color: #f8f8f8; }
+    }
 
     .btn-teal { border-color: #eeeeee; background-color: rgb(35, 191, 197); color: #f8f8f8; }
     .btn-teal:hover { border-color: #ffffff; background-color: #6bcccc; color: #d8d8d8; }
-
-    .brown-fontcolor { color:rgb(115, 110, 107); }
-    .lightbrown-fontcolor { color:rgb(175, 170, 167); }
-    .teal-fontcolor { color:rgb(35, 191, 197); }
-
-    .extrasmall {
-      font-size: 65%;
-    }
-
-    .doubleextrasmall {
-      font-size: 45%;
-    }
-
-    h1 { font-family: 'Muli', sans-serif; font-weight: 400; }
-    h2 { font-family: 'Muli', sans-serif; font-weight: 400; }
-    h3 { font-family: 'Muli', sans-serif; font-weight: 300; }
-    h4 { font-family: 'Muli', sans-serif; font-weight: 300; }
-    h5 { font-family: 'Muli', sans-serif; font-weight: 300; }
-    h6 { font-family: 'Muli', sans-serif; font-weight: 300; }
-    p { font-family: 'Muli', sans-serif; font-weight: 300; }
-
   </style>
 
 </head>
 
 
-  <body>
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1617462811840853";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
-
-  <script>window.twttr = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-              t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-
-      t._e = [];
-      t.ready = function(f) {
-        t._e.push(f);
-      };
-
-      return t;
-    }(document, "script", "twitter-wjs"));</script>
-
+  <body padding-top="50px" >
     <%- body %>
 
 
