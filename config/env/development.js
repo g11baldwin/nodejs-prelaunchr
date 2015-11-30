@@ -21,7 +21,7 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
-
+/*
   emailFrom: 'support@vidii.co',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
     mailer: {
         service: 'Gmail',  //'SERVICE_PROVIDER', // Gmail, SMTP
@@ -31,4 +31,5 @@ module.exports = {
         }
     },
     secret: 'TokenNot2day',
+    */
 };

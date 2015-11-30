@@ -21,7 +21,7 @@ function sendWelcomeMail(user) {
         from: config.mailer.auth.user,
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  "  Please share this code with your friends to acumulate awards points"
+        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up, you'll acumulate award points. " + '\n\n' + " The Vidii team"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
@@ -88,29 +88,58 @@ module.exports = {
                         user.mySharingToken = uuid.v4();
                         user.sourceIp = req.connection.remoteAddress;
                         user.numberFriendsJoined = 0;
+//                        user.friendsJoinedEmails = [];
                         user.enabled = true;
                         if(typeof req.invitedByUserWithToken != undefined) {
                             console.log("user created by being invited, invitedByUserWithToken:", req.invitedByUserWithToken);
                             user.invitedByUserWithToken = req.invitedByUserWithToken;
-                        }
 
-                        user.save(function (err, user) {
-                            if (err) {
-                                console.error("Error: ", err);
-                                return res.serverError("Error creating new user.");
-                            } else {
-                                console.log("user:", user);
-                            }
+                            // now update the user record for the user that invited us
+                            User.findOne({
+                                mySharingToken : req.invitedByUserWithToken
+                            }).exec(function(err, invitinguser) {
+                                if(err) console.error('ERROR (failure on attribution for invite):', err);
+                                if(invitinguser) {
+                                    console.log("inviting user email:", invitinguser.email);
+                                    invitinguser.numberFriendsJoined++;
+//                                    invitinguser.friendsJoinedEmails.push(user.email);;
+                                    invitinguser.save(function(err, invitinguser) {
+                                        if(err) console.error("ERROR: updating inviting user record", err);
 
-                            sendWelcomeMail(user, function (err) {
-                                if (err) res.end('Error sending welcome email: ' + err)
+                                        user.save(function (err, user) {
+                                            if (err) {
+                                                console.error("Error: ", err);
+                                                return res.serverError("Error creating new user.");
+                                            } else {
+                                                console.log("user:", user);
+                                            }
+
+                                            sendWelcomeMail(user, function (err) {
+                                                if (err) res.end('Error sending welcome email: ' + err)
+                                            });
+                                        });
+                                    });
+                                }
                             });
-                        });
+                        } else {
+                            user.save(function (err, user) {
+                                if (err) {
+                                    console.error("Error: ", err);
+                                    return res.serverError("Error creating new user.");
+                                } else {
+                                    console.log("user:", user);
+                                }
+
+                                sendWelcomeMail(user, function (err) {
+                                    if (err) res.end('Error sending welcome email: ' + err)
+                                });
+                            });
+                        }
                     }
 
                     return res.view('user/share', {
-                        referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
-                        numberfriendsjoined: user.numberFriendsJoined,
+                        referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken || '',
+                        numberfriendsjoined: user.numberFriendsJoined || 0,
                         error: ''
                     });
 
@@ -124,7 +153,7 @@ module.exports = {
         console.log('queenofhearts called');
         console.log("testing for referral (ref param):", req.param('ref'));
         // redirect this to main create screen, but provide referral code as param
-        return res.view('homepage', {
+        return res.view('homepagetoo', {
            referralcode: req.param('ref'),
            error: ''
         });

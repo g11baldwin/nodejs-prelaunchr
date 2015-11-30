@@ -45,6 +45,9 @@ module.exports = {
         numberFriendsJoined: {
             type: 'integer'
         },
+//        friendsJoinedEmails : { // keep array of all who joined via our invite
+//            type: []
+//        },
 
         toJSON: function () {
             var obj = this.toObject();
