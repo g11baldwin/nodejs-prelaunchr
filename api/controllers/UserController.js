@@ -31,22 +31,26 @@ function sendWelcomeMail(user) {
 }
 
 module.exports = {
-
+    index: function(req, res) {
+      return res.redirect('homepage');
+    },
     login: function (req, res) {
-        res.view();
+      return res.redirect('homepage');
     },
     loginfailed: function (req, res) {
-        res.view();
+      return res.redirect('homepage');
     },
     process: function(req, res){
+      return res.redirect('homepage');
     },
 
     logout: function (req,res){
+      return res.redirect('homepage');
     },
 
     reset: function (req, res) {
-        console.error("password reset not supported");
-        res.view();
+      console.error("password reset not supported");
+      return res.redirect('homepage');
     },
 
 
@@ -175,7 +179,7 @@ module.exports = {
      */
     edit: function(req, res){
         console.error('Error: user edit not supported');
-        return res.redirect('homepage');
+      return res.redirect('homepage');
     },
     /**
      * Action blueprints:
