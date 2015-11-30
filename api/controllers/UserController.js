@@ -21,7 +21,7 @@ function sendWelcomeMail(user) {
         from: config.mailer.auth.user,
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up, you'll acumulate award points. " + '\n\n' + " The Vidii team"
+        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + " The Vidii team"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
