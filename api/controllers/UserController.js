@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var localConfig = require("../../config/local.js"),
+var config = require("../../config/local.js"),
     uuid = require('uuid'),
     nodemailer = require('nodemailer'),
     _ = require('lodash');
@@ -13,8 +13,17 @@ var localConfig = require("../../config/local.js"),
 /**
  * Send reset password email
  */
-function sendMail(mailOptions) {
+function sendWelcomeMail(user) {
+    console.log('Sending welcome email to new user:', user.email);
     var transport = nodemailer.createTransport(config.mailer);
+
+    var mailOptions = {
+        from: config.smtpTransportConfig.auth.user,
+        to: user.email,
+        subject: "Welcome to Vidii!",
+        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + user.mySharingToken +  "  Please share this code with your friends to acumulate awards points"
+    };
+
     transport.sendMail(mailOptions, function(err, response) {
         if (err) return err;
         return response;
@@ -40,50 +49,69 @@ module.exports = {
         res.view();
     },
 
+
     create: function(req, res) {
         console.log('creating a new user, req.body=', req.body);
-        User.create(req.body, function userCreated(err, user) {
-            if (err) {
-                console.error("ERROR: ", err);
-                req.flash('error', 'creating user... try again.')
-                return res.redirect('/');
-            }
 
-            if(user) {
-                console.info("user created: ", user);
-                user.creatorname = 'null';
-                user.email = req.email;;
-                user.mySharingToken = uuid.v4();
-                user.sourceIp = req.connection.remoteAddress;
-                var t = new Date();
-                user.created = t.now()
-                user.enabled = true;
+        User.findOne({
+            email: req.body.email // if already exists, return same token
+        }).exec(function(err, user) {
+            if (user) {
+                console.log("user already exists, returning existing token:", user.mySharingToken);
+//                res.redirect('user/share');
+                return res.view('user/share', {
+                    token: user.mySharingToken,
+                    error: ''
+                });
 
-                user.save(function(err, user) {
-                    if(err) {
-                        console.error("Error: ", err);
-                        return res.serverError("Error creating new user.");
+            } else {
+
+                User.create(req.body, function userCreated(err, user) {
+                    if (err) {
+                        console.error("ERROR: ", err);
+                        req.flash('error', 'creating user... try again.')
+                        return res.view('/', {
+                            token: '',
+                            error: 'invalid email address, please try again'
+                        });
                     }
 
-                    console.log('Sending welcome email to new user:', user.email);
-                    var mailOptions = {
-                        from: localConfig.smtpTransportConfig.auth.user,
-                        to: user.email,
-                        subject: "Welcome to Vidii!",
-                        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + user.mySharingToken +  "  Please share this code with your friends to acumulate awards points"
-                    };
+                    if (user) {
+                        console.info("user created: ", user);
+                        user.creatorname = 'null';
+                        user.email = req.email;
 
-                    sendMail(mailOptions, function(err) {
-                        if (err) res.end('Error sending welcome email: ' + err)
+                        user.mySharingToken = uuid.v4();
+                        user.sourceIp = req.connection.remoteAddress;
+                        user.enabled = true;
+
+                        user.save(function (err, user) {
+                            if (err) {
+                                console.error("Error: ", err);
+                                return res.serverError("Error creating new user.");
+                            } else {
+                                console.log("user:", user);
+                            }
+
+                            sendWelcomeMail(user, function (err) {
+                                if (err) res.end('Error sending welcome email: ' + err)
+                            });
+                        });
+                    }
+
+                    return res.view('user/share', {
+                        token: user.mySharingToken,
+                        error: ''
                     });
+
                 });
             }
-            res.redirect('user/share'); // redirect to show user how to share
         });
     },
 
-    share: function(req, res){
-        console.log("showing user how to share...");
+
+    createreferred: function(req, res){
+
     },
 
 

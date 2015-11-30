@@ -51,6 +51,7 @@ module.exports = {
     },
 
     beforeCreate: function (user, cb) {
+        cb();
     },
 
     verifyPassword: function (pwd) {
