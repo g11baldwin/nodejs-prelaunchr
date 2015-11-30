@@ -34,6 +34,11 @@
   <![endif]-->
 
   <style>
+    body {
+      /* Move content down because we have a fixed navbar that is 50px tall */
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
       .bgimage {
       background-image: url('http://localhost:1337/images/background3.png');
       background-size:cover;
@@ -43,8 +48,14 @@
       max-width: 1920px;
   }
 
+    .navbar { background-color: rgb(35, 191, 197); color: #f8f8f8; }
+    .navbar-brand { background-color: rgb(35, 191, 197); color: #f8f8f8; }
+
     .btn-teal { border-color: #eeeeee; background-color: rgb(35, 191, 197); color: #f8f8f8; }
     .btn-teal:hover { border-color: #ffffff; background-color: #6bcccc; color: #d8d8d8; }
+
+    .brown-fontcolor { color:rgb(115, 110, 107); }
+    .teal-fontcolor { color:rgb(35, 191, 197); }
   </style>
 
 </head>

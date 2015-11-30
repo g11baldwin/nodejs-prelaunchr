@@ -42,6 +42,9 @@ module.exports = {
         mySharingToken: { // token that is given to others to associate their signup with my invite
             type: 'string'
         },
+        numberFriendsJoined: {
+            type: 'integer'
+        },
 
         toJSON: function () {
             var obj = this.toObject();

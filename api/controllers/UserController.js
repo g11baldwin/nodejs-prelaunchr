@@ -18,10 +18,10 @@ function sendWelcomeMail(user) {
     var transport = nodemailer.createTransport(config.mailer);
 
     var mailOptions = {
-        from: config.smtpTransportConfig.auth.user,
+        from: config.mailer.auth.user,
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + user.mySharingToken +  "  Please share this code with your friends to acumulate awards points"
+        text: "Hi " + user.email + ",\nYou've been registered with the Vidii rewards program. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  "  Please share this code with your friends to acumulate awards points"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
@@ -52,6 +52,8 @@ module.exports = {
 
     create: function(req, res) {
         console.log('creating a new user, req.body=', req.body);
+        console.log("user create, testing for referral (ref param):", req.param('ref'));
+
 
         User.findOne({
             email: req.body.email // if already exists, return same token
@@ -60,7 +62,8 @@ module.exports = {
                 console.log("user already exists, returning existing token:", user.mySharingToken);
 //                res.redirect('user/share');
                 return res.view('user/share', {
-                    token: user.mySharingToken,
+                    referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+                    numberfriendsjoined: user.numberFriendsJoined,
                     error: ''
                 });
 
@@ -71,7 +74,8 @@ module.exports = {
                         console.error("ERROR: ", err);
                         req.flash('error', 'creating user... try again.')
                         return res.view('/', {
-                            token: '',
+                            referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+                            numberfriendsjoined: 0,
                             error: 'invalid email address, please try again'
                         });
                     }
@@ -83,7 +87,12 @@ module.exports = {
 
                         user.mySharingToken = uuid.v4();
                         user.sourceIp = req.connection.remoteAddress;
+                        user.numberFriendsJoined = 0;
                         user.enabled = true;
+                        if(typeof req.invitedByUserWithToken != undefined) {
+                            console.log("user created by being invited, invitedByUserWithToken:", req.invitedByUserWithToken);
+                            user.invitedByUserWithToken = req.invitedByUserWithToken;
+                        }
 
                         user.save(function (err, user) {
                             if (err) {
@@ -100,7 +109,8 @@ module.exports = {
                     }
 
                     return res.view('user/share', {
-                        token: user.mySharingToken,
+                        referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+                        numberfriendsjoined: user.numberFriendsJoined,
                         error: ''
                     });
 
@@ -110,8 +120,14 @@ module.exports = {
     },
 
 
-    createreferred: function(req, res){
-
+    queenofhearts: function(req, res){
+        console.log('queenofhearts called');
+        console.log("testing for referral (ref param):", req.param('ref'));
+        // redirect this to main create screen, but provide referral code as param
+        return res.view('homepage', {
+           referralcode: req.param('ref'),
+           error: ''
+        });
     },
 
 

@@ -35,7 +35,9 @@
 
   <style>
     body {
-      margin-top: 30px;
+    /* Move content down because we have a fixed navbar that is 50px tall */
+      padding-top: 50px;
+      padding-bottom: 20px;
     }
 
     .bgimage {
@@ -54,7 +56,7 @@
 </head>
 
 
-  <body>
+  <body padding-top="50px" >
     <%- body %>
 
 
