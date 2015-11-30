@@ -51,101 +51,109 @@ module.exports = {
 
 
     create: function(req, res) {
-        console.log('creating a new user, req.body=', req.body);
-        console.log("user create, testing for referral (ref param):", req.param('ref'));
+      console.log('creating a new user, req.body=', req.body);
+      console.log("user create, testing for referral (ref param):", req.param('ref'));
+      var retNumFriends = 0;
 
-
-        User.findOne({
-            email: req.body.email // if already exists, return same token
-        }).exec(function(err, user) {
-            if (user) {
-                console.log("user already exists, returning existing token:", user.mySharingToken);
+      User.findOne({
+        email: req.body.email // if already exists, return same token
+      }).exec(function(err, user) {
+        if (user) {
+          console.log("user already exists, returning existing token:", user.mySharingToken);
 //                res.redirect('user/share');
-                return res.view('user/share', {
-                    referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
-                    numberfriendsjoined: user.numberFriendsJoined,
-                    error: ''
-                });
+          retNumFriends = user.numberFriendsJoined;
 
-            } else {
+          return res.view('user/share', {
+            referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+            numberfriendsjoined: retNumFriends,
+            error: ''
+          });
 
-                User.create(req.body, function userCreated(err, user) {
-                    if (err) {
-                        console.error("ERROR: ", err);
-                        req.flash('error', 'creating user... try again.')
-                        return res.view('/', {
-                            referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
-                            numberfriendsjoined: 0,
-                            error: 'invalid email address, please try again'
-                        });
-                    }
+        } else {
 
-                    if (user) {
-                        console.info("user created: ", user);
-                        user.creatorname = 'null';
-                        user.email = req.email;
-
-                        user.mySharingToken = uuid.v4();
-                        user.sourceIp = req.connection.remoteAddress;
-                        user.numberFriendsJoined = 0;
-//                        user.friendsJoinedEmails = [];
-                        user.enabled = true;
-                        if(typeof req.invitedByUserWithToken != undefined) {
-                            console.log("user created by being invited, invitedByUserWithToken:", req.invitedByUserWithToken);
-                            user.invitedByUserWithToken = req.invitedByUserWithToken;
-
-                            // now update the user record for the user that invited us
-                            User.findOne({
-                                mySharingToken : req.invitedByUserWithToken
-                            }).exec(function(err, invitinguser) {
-                                if(err) console.error('ERROR (failure on attribution for invite):', err);
-                                if(invitinguser) {
-                                    console.log("inviting user email:", invitinguser.email);
-                                    invitinguser.numberFriendsJoined++;
-//                                    invitinguser.friendsJoinedEmails.push(user.email);;
-                                    invitinguser.save(function(err, invitinguser) {
-                                        if(err) console.error("ERROR: updating inviting user record", err);
-
-                                        user.save(function (err, user) {
-                                            if (err) {
-                                                console.error("Error: ", err);
-                                                return res.serverError("Error creating new user.");
-                                            } else {
-                                                console.log("user:", user);
-                                            }
-
-                                            sendWelcomeMail(user, function (err) {
-                                                if (err) res.end('Error sending welcome email: ' + err)
-                                            });
-                                        });
-                                    });
-                                }
-                            });
-                        } else {
-                            user.save(function (err, user) {
-                                if (err) {
-                                    console.error("Error: ", err);
-                                    return res.serverError("Error creating new user.");
-                                } else {
-                                    console.log("user:", user);
-                                }
-
-                                sendWelcomeMail(user, function (err) {
-                                    if (err) res.end('Error sending welcome email: ' + err)
-                                });
-                            });
-                        }
-                    }
-
-                    return res.view('user/share', {
-                        referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken || '',
-                        numberfriendsjoined: user.numberFriendsJoined || 0,
-                        error: ''
-                    });
-
-                });
+          User.create(req.body, function userCreated(err, user) {
+            if (err) {
+              console.error("ERROR: ", err);
+              req.flash('error', 'creating user... try again.')
+              return res.view('/', {
+                referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+                numberfriendsjoined: 0,
+                error: 'invalid email address, please try again'
+              });
             }
-        });
+
+            if (user) {
+              console.info("user created: ", user);
+              user.creatorname = 'null';
+              user.email = req.email;
+
+              user.mySharingToken = uuid.v4();
+              user.sourceIp = req.connection.remoteAddress;
+              user.numberFriendsJoined = 0;
+//                        user.friendsJoinedEmails = [];
+              user.enabled = true;
+              if(typeof req.invitedByUserWithToken != undefined) {
+                console.log("user created by being invited, invitedByUserWithToken:", req.invitedByUserWithToken);
+                user.invitedByUserWithToken = req.invitedByUserWithToken;
+
+                // now update the user record for the user that invited us
+                User.findOne({
+                  mySharingToken : req.invitedByUserWithToken
+                }).exec(function(err, invitinguser) {
+                  if(err) console.error('ERROR (failure on attribution for invite):', err);
+                  if(invitinguser) {
+                    console.log("inviting user email:", invitinguser.email);
+                    if(typeof invitinguser.numberFriendsJoined != undefined) {
+                      invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
+                    } else {
+                      invitinguser.numberFriendsJoined = 1;
+                    }
+                    retNumFriends = invitinguser.numberFriendsJoined;
+//                                    invitinguser.friendsJoinedEmails.push(user.email);;
+                    invitinguser.save(function(err, invitinguser) {
+                      if(err) console.error("ERROR: updating inviting user record", err);
+
+                      user.save(function (err, user) {
+                        if (err) {
+                          console.error("Error: ", err);
+                          return res.serverError("Error creating new user.");
+                        } else {
+                          console.log("user:", user);
+                        }
+
+                        sendWelcomeMail(user, function (err) {
+                          if (err) res.end('Error sending welcome email: ' + err)
+                        });
+                      });
+                    });
+                  }
+                });
+              } else {
+                retNumFriends = user.numberFriendsJoined;
+                user.save(function (err, user) {
+                  if (err) {
+                    console.error("Error: ", err);
+                    return res.serverError("Error creating new user.");
+                  } else {
+                    console.log("user:", user);
+                  }
+
+                  sendWelcomeMail(user, function (err) {
+                    if (err) res.end('Error sending welcome email: ' + err)
+                  });
+                });
+              }
+            }
+
+            return res.view('user/share', {
+              referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken || '',
+              numberfriendsjoined: user.numberFriendsJoined || 0,
+              error: ''
+            });
+
+          });
+        }
+      });
     },
 
 
