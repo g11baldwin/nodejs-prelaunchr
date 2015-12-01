@@ -6,7 +6,6 @@
  */
 
 var config = require("../../config/local.js"),
-    uuid = require('uuid'),
     nodemailer = require('nodemailer'),
     _ = require('lodash');
 
@@ -21,7 +20,7 @@ function sendWelcomeMail(user) {
         from: config.mailer.auth.user,
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + " The Vidii team"
+        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + " The Vidii team"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
@@ -56,7 +55,7 @@ module.exports = {
 
     create: function(req, res) {
       console.log('creating a new user, req.body=', req.body);
-      console.log("user create, testing for referral (invitedByUserWithToken):", req.param('invitedByUserWithToken'));
+      console.log("user create, testing for referral (invitedByUserId):", req.param('invitedByUserId'));
       var retNumFriends = 0;
 
       User.findOne({
@@ -68,7 +67,7 @@ module.exports = {
           retNumFriends = user.numberFriendsJoined;
 
           return res.view('user/share', {
-            referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+            referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken,
             numberfriendsjoined: retNumFriends,
             error: ''
           });
@@ -80,7 +79,7 @@ module.exports = {
               console.error("ERROR: ", err);
               req.flash('error', 'creating user... try again.')
               return res.view('/', {
-                referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken,
+                referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken,
                 numberfriendsjoined: 0,
                 error: 'invalid email address, please try again'
               });
@@ -91,18 +90,18 @@ module.exports = {
               user.creatorname = 'null';
               user.email = req.email;
 
-              user.mySharingToken = uuid.v4();
+              user.mySharingToken = user.id; // use our id
               user.sourceIp = req.connection.remoteAddress;
               user.numberFriendsJoined = 0;
 //                        user.friendsJoinedEmails = [];
               user.enabled = true;
-              if(typeof req.param('invitedByUserWithToken') != "undefined") {
-                console.log("user created by being invited, invitedByUserWithToken:", req.param('invitedByUserWithToken'));
-                user.invitedByUserWithToken = req.param('invitedByUserWithToken');
+              if(typeof req.param('invitedByUserId') != "undefined") {
+                console.log("user created by being invited, invitedByUserId:", req.param('invitedByUserId'));
+                user.invitedByUserId = req.param('invitedByUserId');
 
                 // now update the user record for the user that invited us
                 User.findOne({
-                  mySharingToken : req.param('invitedByUserWithToken')
+                  mySharingToken : req.param('invitedByUserId')
                 }).exec(function(err, invitinguser) {
                   if(err) console.error('ERROR (failure on attribution for invite):', err);
                   if(invitinguser) {
@@ -150,7 +149,7 @@ module.exports = {
             }
 
             return res.view('user/share', {
-              referralurl: config.referralURLbase + 'user/queenofhearts/' + '?ref=' + user.mySharingToken || '',
+              referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken || '',
               numberfriendsjoined: user.numberFriendsJoined || 0,
               error: ''
             });
@@ -161,8 +160,8 @@ module.exports = {
     },
 
 
-    queenofhearts: function(req, res){
-        console.log('queenofhearts called');
+    qh: function(req, res){
+        console.log('qh called');
         console.log("testing for referral (ref param):", req.param('ref'));
         // redirect this to main create screen, but provide referral code as param
       return res.view('homepagetoo', {
