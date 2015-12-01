@@ -36,7 +36,7 @@ module.exports = {
             type: 'Boolean',
             defaultsTo: true
         },
-        invitedByUserWithToken: { // the token that was used to cause this user to signup (or null)
+        invitedByUserId: { // the mongo id of user that invited this user to signup (or null if they signed up w/o invite)
             type: 'string'
         },
         mySharingToken: { // token that is given to others to associate their signup with my invite
