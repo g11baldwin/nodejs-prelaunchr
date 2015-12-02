@@ -5,7 +5,10 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var config = require("../../config/local.js"),
+
+
+var config = require("../../config/local-local.js"),
+    uuid = require('uuid'),
     nodemailer = require('nodemailer'),
     _ = require('lodash');
 
@@ -17,10 +20,10 @@ function sendWelcomeMail(user) {
     var transport = nodemailer.createTransport(config.mailer);
 
     var mailOptions = {
-        from: config.mailer.auth.user,
+        from: 'Vidii support <' +  config.mailer.auth.user  +'>',
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + " The Vidii team"
+        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + "The Vidii team"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
