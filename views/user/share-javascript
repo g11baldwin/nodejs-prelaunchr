@@ -1,0 +1,32 @@
+
+    <div class="row">
+      <div class="col-md-12">
+        <% if(numberfriendsjoined < 5) { %>
+        <img src="http://localhost:1337/images/sliding-scale-lt5.png">
+        <% } else if(numberfriendsjoined < 10) { %>
+        <img src="http://localhost:1337/images/sliding-scale-lt10.png">
+        <% } else if(numberfriendsjoined < 25) { %>
+        <img src="http://localhost:1337/images/sliding-scale-lt25.png">
+        <% } else if(numberfriendsjoined < 50) { %>
+        <img src="http://localhost:1337/images/sliding-scale-lt50.png">
+        <% } else  { %>
+        <img src="http://localhost:1337/images/sliding-scale-100pct.png">
+        <% } %>
+      </div>
+    </div>
+
+
+      <div class="row">
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-4">
+        <% var goodgrammar = " friends have"; %>
+        <% if(numberfriendsjoined == 1) { %>
+        <% goodgrammar = " friend has"; %>
+        <% } %>
+        <p class="small text-center brown-fontcolor"><%= numberfriendsjoined %><%= goodgrammar %> joined... <br>Keep checking.</p>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+    </div>
