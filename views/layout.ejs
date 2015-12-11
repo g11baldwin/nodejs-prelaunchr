@@ -23,6 +23,7 @@
   <link href='https://fonts.googleapis.com/css?family=Muli:400,300italic,400italic,300' rel='stylesheet' type='text/css'>
   -->
   <link href='https://fonts.googleapis.com/css?family=Lato:400,900,700,100italic,300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -43,15 +44,24 @@
       padding-top: 50px;
       padding-bottom: 20px;
     }
-      .bgimage {
+    .bgimage {
       background-image: url('http://vidii.co/images/background3.png');
       background-size:cover;
       background-repeat: no-repeat;
+	  background-position: center;
       width: 100%;
       height: auto;
-	  padding-bottom: 21%;
-      max-width: 1920px;
+	  padding-bottom: 22%;
+      max-width: 100%; /*1920px*/
   }
+  
+	.jumbotron{
+	  padding-top: 0 !important;
+	  padding-bottom: 0 !important;
+	  padding: 0 !important;
+	  max-width: 100%;
+	  overflow-x: hidden;
+	}
 
     .navbar { background-color: rgb(35, 191, 197); color: #f8f8f8; }
     .navbar-brand { background-color: rgb(35, 191, 197); color: #f8f8f8; }
@@ -71,14 +81,217 @@
       font-size: 45%;
     }
 
-    h1 { font-family: 'Lato', sans-serif; font-weight: 900; }
+    /*h1 { font-family: 'Lato', sans-serif; font-weight: 900; }
     h2 { font-family: 'Lato', sans-serif; font-weight: 900; }
     h3 { font-family: 'Lato', sans-serif; font-weight: 600; }
     h4 { font-family: 'Lato', sans-serif; font-weight: 600; }
     h5 { font-family: 'Lato', sans-serif; font-weight: 300; }
     h6 { font-family: 'Lato', sans-serif; font-weight: 300; }
-    p { font-family: 'Lato', sans-serif; font-weight: 300; }
-
+    p { font-family: 'Lato', sans-serif; font-weight: 300; }*/
+	/*Original Google Font from Rails App*/
+	h1{font-family: 'Varela Round', sans-serif; font-weight: 900;}
+	h2{font-family: 'Varela Round', sans-serif; font-weight: 900;}
+	h3{font-family: 'Varela Round', sans-serif; font-weight: 600;}
+	h4{font-family: 'Varela Round', sans-serif; font-weight: 600;}
+	h5{font-family: 'Varela Round', sans-serif; font-weight: 300;}
+	h6{font-family: 'Varela Round', sans-serif; font-weight: 300;}
+	p{font-family: 'Varela Round', sans-serif; font-weight: 300;}
+/*center text with phone on banner image*/
+.homeText{
+	margin-left: -34px;
+}
+/*remove space between input field and submit button*/
+#submitBtn{
+	margin-left: -7px;
+	margin-top: 5px;
+}
+#inpEmail{
+	width: 230px;
+}
+#bannerText{
+	position: relative;
+	padding-top: 5%;
+	padding-left: 5%;
+}
+.tealBubble{
+	color: #FFFFFF;
+	font-family: 'Varela Round', sans-serif;
+	margin-top: 15px;
+	background: #1fbcc3;
+	border: 1px solid #1fbcc3;
+	border-radius: 10px;
+	padding: 10px;
+	display: inline-block;
+	line-height: 1em;
+}
+.tealBubble #headerText, .tealBubble #subText{
+	text-align: center;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+#headerText{
+	font-size: 29px;
+}
+#subText{
+	font-size: 17px;
+}
+.greyBg{
+background-color: #EEEEEE;
+border-bottom: 1px solid #CCCCCC;
+padding-top: 15px;
+}
+.sixColumns{
+position: relative;
+display: inline-block;
+vertical-align: top;
+width: 16%;
+height: auto;
+text-align: center;
+padding: 1%;
+font-family: 'Varela Round', sans-serif; font-weight: 300;
+font-size: 16px;
+line-height: 1.35em;
+color: #898989;
+}
+.teal{
+color: #23BFC5 !important;
+}
+.circle{
+	display: inline-block;
+	height: 43px;
+	width: 43px;
+	line-height: 42px;
+	-moz-border-radius: 30px;
+	border-radius: 40px;
+	background-color: #FFF;
+	border: 1px solid #898989;
+	color: #898989;
+	text-align: center;
+	}
+	.circle:hover{
+	background: #23BFC5 !important;
+	color: #FFFFFF !important;
+	border: 1px solid #23BFC5 !important;
+	}
+/*Image Hovers on Refer Page*/
+a.tooltip2 {outline:none; }
+a.tooltip2 strong {line-height:30px;}
+a.tooltip2:hover {text-decoration:none;} 
+/*a.tooltip2 span#ttImage {
+    z-index:10;display:none; padding:14px 20px;
+    margin-top:-125px; margin-left:-25px;
+    width:100px; line-height:16px;
+}*/
+a.tooltip2 span#ttImage {
+    z-index:10;display:none; padding:14px 20px;
+    margin-top:-250px; margin-left:-65px;
+    width:190px; line-height:16px;
+}
+a.tooltip2:hover span#ttImage{
+    display:inline; position:absolute; 
+    border:2px solid #0fbec3;  color:#0fbec3;
+    background:#FFFFFF;
+}
+.callout {z-index:20;position:absolute;border:0;bottom:-14px;left:72px;}
+    
+/*CSS3 extras*/
+a.tooltip2 span#ttImage
+{
+    border-radius:2px;        
+    box-shadow: 0px 0px 8px 4px #CCC;
+    /*opacity: 0.8;*/
+}
+.fb_iframe_widget span, #twitterButton iframe{
+vertical-align: top !important;
+}
+.mobileBlock{
+display: none;
+}
+.mobileBlock2{
+display: inline-block;
+}
+.mobileHide{
+display: inline-block;
+}
+.videoContainer{
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;	
+	margin: 0 auto;
+}
+.videoContainer iframe{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;	
+}
+@media only screen and (max-width: 768px){
+#homeScreen{
+margin-top: -50px !important;
+}
+    .bgimage {
+      background-image: url('http://vidii.co/images/background3_mobile.jpg');
+      background-size:cover;
+      background-repeat: no-repeat;
+	  background-position: center;
+      width: 100%;
+      height: auto;
+	  padding-bottom: 40%;
+      max-width: 100%; /*1920px*/
+  }
+  #headerText{
+	font-size: 25px;
+}
+#subText{
+	font-size: 14px;
+}
+.tealBubble{
+position: relative;
+width: 95%;
+height: auto;
+text-align: center;
+}
+.tealBubble #headerText{
+margin: 10px auto 5px auto !important;
+}
+.tealBubble #subText{
+	padding: 5px !important;
+	margin: 5px auto !important;
+}
+.homeText{
+	margin-left: 0 !important;
+	text-align: center !important;
+}
+#submitBtn{
+	margin-left: 0 !important;
+	margin-top: 0 !important;
+	width: 100% !important;
+}
+#inpEmail{
+	width: 100% !important;
+}
+.mobileCenter{
+text-align: center !important;
+}
+.mobileHide{
+display: none !important;
+}
+.mobileBlock, .mobileBlock2{
+width: 100% !important; /*100%*/
+display: block !important;
+}
+.sixColumns{
+width: 18% !important;
+}
+.oneColumn img{
+position: relative;
+width: auto;
+max-width: 100%;
+height: auto;
+}
+}
   </style>
 
 </head>

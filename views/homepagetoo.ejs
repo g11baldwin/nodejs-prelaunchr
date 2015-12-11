@@ -19,8 +19,9 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
   <div class="container bgimage">
-      <h4></h4>
-  </div>
+      <div class="bannerText"><div class="tealBubble"><span id="headerText" class="center">VIDII IS ALMOST HERE</span></div><br />
+	  <div class="tealBubble"><span id="subText" class="center">DO MORE THAN JUST WATCH VIDEOS<br />USE THEM TO COMMUNICATE</span></div>
+ </div></div><!-- #bannerText -->
 
 
 <div class="container">
@@ -35,7 +36,7 @@
     <div class="col-md-5">
     </div>
     <div class="col-md-3">
-      <h4 style="color:rgb(35, 191, 197)">    Be the first to know.</h4>
+      <h4 style="color:rgb(35, 191, 197)" class="homeText"><br /><br />BE THE FIRST TO KNOW</h4>
     </div>
     <div class="col-md-4">
     </div>
@@ -52,9 +53,9 @@
       -->
       <form id="createuser-form" action="/user/create" method="POST" role="form" autocomplete="off" class="navbar-form">
         <div class="form-group">
-          <input type="text" placeholder="Enter Email" name="email" class="form-control">
+          <input type="text" placeholder="Enter Email" name="email" class="form-control" id="inpEmail">
         </div>
-        <button type="submit" class="btn btn-teal">Step Inside</button>
+        <button type="submit" class="btn btn-teal" id="submitBtn">Step Inside</button>
         <% if (referralcode) { %>
         <input type="hidden" name="invitedByUserId" value="<%= referralcode %>" />
         <% } %>
@@ -72,7 +73,7 @@
     <div class="col-md-5">
     </div>
     <div class="col-md-3">
-      <img src="http://vidii.co/images/key.png">
+      <img src="http://vidii.co/images/key.png" class="mobileCenter">
     </div>
     <div class="col-md-4">
     </div>

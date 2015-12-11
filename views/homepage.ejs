@@ -17,11 +17,28 @@
 
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+<div id="homeScreen" class="jumbotron">
   <div class="container bgimage">
-      <h4></h4>
-  </div>
+     <div id="bannerText" class="mobileHide">
+	  <div class="tealBubble" style="padding-top: 17px;">
+	  	<span id="headerText" class="center">VIDII IS ALMOST HERE</span>
+	  </div>
+	  <br />
+	  <div class="tealBubble">
+	  	<span id="subText" class="center">DO MORE THAN JUST WATCH VIDEOS<br />USE THEM TO COMMUNICATE</span>
+		</div>
+  	</div>
+</div><!-- #bannerText -->
 
+<div class="mobileBlock" style="text-align: center !important;">
+<div class="tealBubble" style="padding-top: 17px;">
+	  	<span id="headerText" class="center">VIDII IS ALMOST HERE</span>
+	  </div>
+	  <br />
+	  <div class="tealBubble">
+	  	<span id="subText" class="center">DO MORE THAN JUST WATCH VIDEOS<br />USE THEM TO COMMUNICATE</span>
+		</div>
+</div>
 
 <div class="container">
   <!-- Example row of columns -->
@@ -35,7 +52,7 @@
     <div class="col-md-5">
     </div>
     <div class="col-md-3">
-      <h4 style="color:rgb(35, 191, 197)">    Be the first to know.</h4>
+      <h4 style="color:rgb(35, 191, 197)" class="homeText"><br /><br />BE THE FIRST TO KNOW</h4>
     </div>
     <div class="col-md-4">
     </div>
@@ -52,9 +69,9 @@
       -->
       <form id="createuser-form" action="/user/create" method="POST" role="form" autocomplete="off" class="navbar-form">
         <div class="form-group">
-          <input type="text" placeholder="Enter Email" name="email" class="form-control">
+          <input type="text" placeholder="Enter Email" name="email" class="form-control" id="inpEmail">
         </div>
-        <button type="submit" class="btn btn-teal">Step Inside</button>
+        <button type="submit" class="btn btn-teal" id="submitBtn">Step Inside</button>
       </form>
 
     </div>
@@ -67,8 +84,8 @@
   <div class="row">
     <div class="col-md-5">
     </div>
-    <div class="col-md-3">
-      <img src="images/key.png">
+    <div class="col-md-3" style="text-align: center;">
+      <img src="images/key.png" class="mobileCenter">
     </div>
     <div class="col-md-4">
     </div>

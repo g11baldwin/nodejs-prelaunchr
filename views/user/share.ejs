@@ -3,14 +3,14 @@
 <nav class="navbar navbar-fixed-top" style ='background-color: rgb(35, 191, 197);'>
 
   <div class="container" >
-    <div class="navbar-header">
+    <div class="navbar-header" style="width: 100%; text-align: center !important;">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
       </button>
 <!--
       <a class="navbar-brand text-center" href="/">VIDII</a>
 -->
-      <a href="#" class=""><img src="/images/logo.png" style="padding-top: 12px;"></a>
+      <a href="#" class=""><img src="/images/logo.png" style="padding-top: 6px;"></a>
     </div>
   </div>
 </nav>
@@ -18,8 +18,8 @@
 
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron" style ='background-color: rgb(255, 255, 255);'>
-
+<div class="jumbotron" style ='background-color: rgb(255, 255, 255); max-width:100%; overflow-x: hidden;'>
+<div class="greyBg">
   <div class="container">
     <!-- Example row of columns -->
     <div class="row">
@@ -32,96 +32,173 @@
         <h4 class="text-center brown-fontcolor bold" style="font-weight:900" >BEYOND WATCHING. BEYOND <br> COMMUNICATING. <br> IT'S GOING TO BE FUN. BRING YOUR <br> FRIENDS ALONG.</h4>
         <h2 class="text-center" style="color:rgb(35, 191, 197)">INVITE FRIENDS & <br>EARN PRODUCT</h2>
         <p class="extrasmall text-center brown-fontcolor">Share your unique link via email (copy and paste), Facebook or Twitter and earn Vidii Gifts for each friend who signs up.</p>
+		
         <div class="container">
         <p><textarea rows="2" width="100%" class="doubleextrasmall text-muted" style="width: 100%; height: auto; word-break: break-all; padding: 10px; border: 1px solid #999999; resize: none;"><%= referralurl %> </textarea></p>
-
+<div style="text-align: center !important;">
+<div style="position: relative; display: inline-block; vertical-align: top; width: 80px; vertical-align: top; margin: 0 !important; padding: 0 !important;">
         <div class="fb-share-button" data-href="<%= referralurl %>" data-layout="button"></div>
+</div>
+
+<div id="twitterButton" style="position: relative; display: inline-block; vertical-align: top; width: 80px; vertical-align: top; margin: 0 !important;padding: 0 !important;">
         <a class="twitter-share-button"
            href="https://twitter.com/share"
            data-url="<%= referralurl %>"
-           data-hashtags="vidii"
-           data-text="Invitation to sign up with Vidii">
+           data-text="Excited for @VidiiChat to launch. I'm going to see #StarWars #TheForceAwakens for free">
           Tweet
         </a>
+</div>
+</div>
         </div>
 
         </div>
+		
       <div class="col-md-1">
       </div>
 
       <div class="col-md-5">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/v5-YPJEAkMc?autoplay=1&rel=0&modestbranding=1&controls=0" frameborder="1" ></iframe>
+        <div class="videoContainer"><iframe width="560" height="315" src="https://www.youtube.com/embed/v5-YPJEAkMc?autoplay=1&rel=0&modestbranding=1&controls=0" frameborder="1" ></iframe></div><!-- .videoContainer -->
       </div>
       <div class="col-md-1">
       </div>
 
     </div>
-
+</div><!-- .greyBg -->
       </div>
 
 
     <div class="container">
     <div class="row">
-      <div class="col-md-5">
+      <div class="">
         </div>
-      <div class="col-md-3">
+      <div class="" style="text-align: center;">
         <h4 class="text-center teal-fontcolor">HERE'S HOW IT WORKS:</h4>
         </div>
-      <div class="col-md-4">
+      <div class="">
+      </div>
+    </div>
+<!-- New HTML Milestones -->
+<div class="row">
+<div class="sixColumns teal mobileBlock2"><b>Friends Joined</b></div><!-- .sixColumns -->
+<div class="sixColumns">
+<a href="#" class="tooltip2">
+    
+    <span id="ttImage">
+        <img class="callout" src="/images/arrow_down.png" />
+        <img src="/images/5-tooltip.jpg" width="190px" style="width: 100%; height: auto;" />
+    </span>
+    
+    <span class="circle">5</span>
+</a>
+</div><!-- .sixColumns -->
+<div class="sixColumns">
+<a href="#" class="tooltip2">
+    
+    <span id="ttImage">
+        <img class="callout" src="/images/arrow_down.png" />
+        <img src="/images/10-tooltip.png" width="190px" style="width: 100%; height: auto;" />
+    </span>
+    
+    <span class="circle">10</span>
+</a>
+</div><!-- .sixColumns -->
+<div class="sixColumns">
+<a href="#" class="tooltip2">
+    
+    <span id="ttImage">
+        <img class="callout" src="/images/arrow_down.png" />
+        <img src="/images/25-tooltip.png" width="190px" style="width: 100%; height: auto;" />
+    </span>
+    
+    <span class="circle">25</span>
+</a>
+</div><!-- .sixColumns -->
+<div class="sixColumns">
+<a href="#" class="tooltip2">
+    
+    <span id="ttImage">
+        <img class="callout" src="/images/arrow_down.png" />
+        <img src="/images/50-tooltip.png" width="190px" style="width: 100%; height: auto;" />
+    </span>
+    
+    <span class="circle">50</span>
+</a>
+</div><!-- .sixColumns -->
+<div class="sixColumns">
+<a href="#" class="tooltip2">
+    
+    <span id="ttImage">
+        <img class="callout" src="/images/arrow_down.png" />
+        <img src="/images/500-tooltip.png" width="190px" style="width: 100%; height: auto;" />
+    </span>
+    
+    <span class="circle">500</span>
+</a>
+</div><!-- .sixColumns -->
+</div>
+<div class="row">
+<div class="oneColumn">
+<!-- Milestone Progress Bar - changes with number of referrals -->
+
+ <% if(numberfriendsjoined < 5) { %>
+        <img src="/images/sliding-scale-lt5.png">
+        <% } else if(numberfriendsjoined < 10) { %>
+        <img src="/images/sliding-scale-lt10.png">
+        <% } else if(numberfriendsjoined < 25) { %>
+        <img src="/images/sliding-scale-lt25.png">
+        <% } else if(numberfriendsjoined < 50) { %>
+        <img src="/images/sliding-scale-lt50.png">
+        <% } else  { %>
+        <img src="/images/sliding-scale-100pct.png">
+        <% } %>
+</div><!-- .sixColumns -->
+</div>
+<div class="row teal">
+<div class="sixColumns teal mobileHide"></div><!-- .sixColumns -->
+<div class="sixColumns teal">Early<br />Access</div><!-- .sixColumns -->
+<div class="sixColumns teal">Online Movie<br />Rental</div><!-- .sixColumns -->
+<div class="sixColumns teal">$15 Movie<br />Ticket</div><!-- .sixColumns -->
+<div class="sixColumns teal">3 Months of <br />Netflix</div><!-- .sixColumns -->
+<div class="sixColumns teal">$500<br /></div><!-- .sixColumns -->
+</div>
+<br />
+    <div class="row">
+      <div class="col-md-12">
+        <!--<img src="/images/sliding-scale.png" style="position: relative; width: auto; max-width: 100%; height: auto;">-->
       </div>
     </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <% if(numberfriendsjoined < 5) { %>
-          <img src="http://localhost:1337/images/sliding-scale-lt5.png">
-          <% } else if(numberfriendsjoined < 10) { %>
-          <img src="http://localhost:1337/images/sliding-scale-lt10.png">
-          <% } else if(numberfriendsjoined < 25) { %>
-          <img src="http://localhost:1337/images/sliding-scale-lt25.png">
-          <% } else if(numberfriendsjoined < 50) { %>
-          <img src="http://localhost:1337/images/sliding-scale-lt50.png">
-          <% } else  { %>
-          <img src="http://localhost:1337/images/sliding-scale-100pct.png">
-          <% } %>
-        </div>
-      </div>
-
 
       <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-          <% var goodgrammar = " friends have"; %>
-          <% if(numberfriendsjoined == 1) { %>
-          <% goodgrammar = " friend has"; %>
-          <% } %>
-          <p class="small text-center brown-fontcolor"><%= numberfriendsjoined %><%= goodgrammar %> joined... <br>Keep checking.</p>
-        </div>
-        <div class="col-md-4">
-        </div>
+      <div class="">
       </div>
+      <div class="" style="text-align: center;">
+        <p class="small text-center brown-fontcolor"><%= numberfriendsjoined %> friends have joined... <br>Keep checking</p>
+      </div>
+      <div class="">
+      </div>
+    </div>
     </div>
 
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="">
     </div>
-    <div class="col-md-4">
+    <div class="" style="text-align: center;">
       <p class="extrasmall text-center brown-fontcolor"></p>
     </div>
-    <div class="col-md-4">
+    <div class="">
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-5">
+    <div class="">
     </div>
-    <div class="col-md-3">
+    <div class="" style="text-align: center;">
       <a href="http://vidii.co/VidiconsPrivacyPolicy.pdf" target="_blank" class="doubleextrasmall  lightbrown-fontcolor">  Privacy Policy | </a>
       <a href="http://vidii.co/TermsAndConditions.pdf" target="_blank" class="doubleextrasmall lightbrown-fontcolor">  Terms & Conditions  </a>
     </div>
-    <div class="col-md-4">
+    <div class="">
     </div>
   </div>
 
