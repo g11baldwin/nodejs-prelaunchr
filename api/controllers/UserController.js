@@ -10,10 +10,42 @@
 var config = require("../../config/local-local.js"),
     uuid = require('uuid'),
     nodemailer = require('nodemailer'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    randomString = require('random-string'), // defaults to 8 char string
+    once = require('once');
+
+
+var inUseStrings = []; // array loaded up at init
+
+
+function loadStrings() {
+    console.log("loading up strings:")
+    User.find({}).exec(function(err, users) {
+        if(err) console.error("Error loading up user records, err:", err);
+        users.forEach(function(u) {
+            console.log("pushing another user mySharingToken into list:", u.mySharingToken);
+            inUseStrings.push(u.mySharingToken);
+        });
+    });
+}
+
+function findUnusedString() {
+    loadStrings = once(loadStrings);
+    var done = false;
+
+    while(!done) {
+        var tmp = randomString({length: 4}); // candidate string
+        if (_.findIndex(inUseStrings, tmp) == -1) {
+            console.log("found unusedString:", tmp); // not in use
+            inUseStrings.push(tmp);
+            return tmp;
+        }
+    }
+}
+
 
 /**
- * Send reset password email
+ * Send welcome
  */
 function sendWelcomeMail(user) {
     console.log('Sending welcome email to new user:', user.email);
@@ -23,7 +55,7 @@ function sendWelcomeMail(user) {
         from: 'Vidii support <' +  config.mailer.auth.user  +'>',
         to: user.email,
         subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + "The Vidii team"
+        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'q/' + '?r=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + "The Vidii team"
     };
 
     transport.sendMail(mailOptions, function(err, response) {
@@ -70,7 +102,7 @@ module.exports = {
           retNumFriends = user.numberFriendsJoined;
 
           return res.view('user/share', {
-            referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken,
+            referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
             numberfriendsjoined: retNumFriends,
             error: ''
           });
@@ -82,7 +114,7 @@ module.exports = {
               console.error("ERROR: ", err);
               req.flash('error', 'creating user... try again.')
               return res.view('/', {
-                referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken,
+                referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
                 numberfriendsjoined: 0,
                 error: 'invalid email address, please try again'
               });
@@ -93,7 +125,10 @@ module.exports = {
               user.creatorname = 'null';
               user.email = req.email;
 
-              user.mySharingToken = user.id; // use our id
+//              user.mySharingToken = user.id; // use our id
+
+                user.mySharingToken = findUnusedString(); // shorten to 5 char string
+
               user.sourceIp = req.connection.remoteAddress;
               user.numberFriendsJoined = 0;
 //                        user.friendsJoinedEmails = [];
@@ -152,7 +187,7 @@ module.exports = {
             }
 
             return res.view('user/share', {
-              referralurl: config.referralURLbase + 'user/qh/' + '?ref=' + user.mySharingToken || '',
+              referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
               numberfriendsjoined: user.numberFriendsJoined || 0,
               error: ''
             });
@@ -163,12 +198,12 @@ module.exports = {
     },
 
 
-    qh: function(req, res){
-        console.log('qh called');
-        console.log("testing for referral (ref param):", req.param('ref'));
+    q: function(req, res){
+        console.log('q called');
+        console.log("testing for referral (r param):", req.param('r'));
         // redirect this to main create screen, but provide referral code as param
       return res.view('homepagetoo', {
-        referralcode: req.param('ref'),
+        referralcode: req.param('r'),
         error: ''
       });
     },
