@@ -15,7 +15,42 @@ var config = require("../../config/local-local.js"),
     once = require('once');
 
 
-var inUseStrings = []; // array loaded up at init
+var inUseStrings = [];
+var alreadyUsedIPs = [];
+
+function loadIPs() {
+    console.log("loading up IP addresses:")
+    User.find({}).exec(function (err, users) {
+        if (err) console.error("Error loading up user records to get IP addresses records, err:", err);
+        users.forEach(function (u) {
+            console.log("pushing another user IP Address into list:", u.sourceIp);
+            var index = _.findIndex(alreadyUsedIPs, {'ip': u.sourceIp});
+            if (index == -1) { // not found
+                alreadyUsedIPs.push({'ip': u.sourceIp, 'cnt': 1});
+            } else {
+                var tmp = alreadyUsedIPs[index];
+                console.log("found matching IP, tmp=", tmp);
+                tmp.cnt = tmp.cnt + 1;
+                alreadyUsedIPs[index] = tmp;
+            }
+        });
+    });
+}
+
+function okToUseThisIP(anip) {
+    loadIPs();
+    var index = _.findIndex(alreadyUsedIPs, { 'ip': anip });
+    if(index == -1) {
+        return true;
+    } else {
+        if (alreadyUsedIPs[index].cnt > 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
 
 
 function loadStrings() {
@@ -30,7 +65,7 @@ function loadStrings() {
 }
 
 function findUnusedString() {
-    loadStrings = once(loadStrings);
+    loadStrings();
     var done = false;
 
     while(!done) {
@@ -101,98 +136,108 @@ module.exports = {
 //                res.redirect('user/share');
           retNumFriends = user.numberFriendsJoined;
 
-          return res.view('user/share', {
-            referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
-            numberfriendsjoined: retNumFriends,
-            error: ''
-          });
+            return res.view('user/share', {
+                referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
+                numberfriendsjoined: retNumFriends,
+                error: ''
+            });
 
         } else {
 
-          User.create(req.body, function userCreated(err, user) {
-            if (err) {
-              console.error("ERROR: ", err);
-              req.flash('error', 'creating user... try again.')
-              return res.view('/', {
-                referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
-                numberfriendsjoined: 0,
-                error: 'invalid email address, please try again'
-              });
-            }
+            if(!okToUseThisIP(req.ip)) {
+                return res.view('user/homepage', {
+                    referralurl: '',
+                    numberfriendsjoined: 0,
+                    error: 'Maximum of 2 signups per IP address!'
+                });
+            } else {
 
-            if (user) {
-              console.info("user created: ", user);
-              user.creatorname = 'null';
-              user.email = req.email;
+                User.create(req.body, function userCreated(err, user) {
+                    if (err) {
+                        console.error("ERROR: ", err);
+                        req.flash('error', 'creating user... try again.')
+                        return res.view('/', {
+                            referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
+                            numberfriendsjoined: 0,
+                            error: 'invalid email address, please try again'
+                        });
+                    }
+
+                    if (user) {
+                        console.info("user created: ", user);
+                        user.creatorname = 'null';
+                        user.email = req.email;
 
 //              user.mySharingToken = user.id; // use our id
 
-                user.mySharingToken = findUnusedString(); // shorten to 5 char string
+                        user.mySharingToken = findUnusedString(); // shorten to 5 char string
 
-              user.sourceIp = req.connection.remoteAddress;
-              user.numberFriendsJoined = 0;
+
+                        user.sourceIp = req.ip;
+                        user.numberFriendsJoined = 0;
 //                        user.friendsJoinedEmails = [];
-              user.enabled = true;
-              if(typeof req.param('invitedByUserId') != "undefined") {
-                console.log("user created by being invited, invitedByUserId:", req.param('invitedByUserId'));
-                user.invitedByUserId = req.param('invitedByUserId');
+                        user.enabled = true;
+                        if (typeof req.param('invitedByUserId') != "undefined") {
+                            console.log("user created by being invited, invitedByUserId:", req.param('invitedByUserId'));
+                            user.invitedByUserId = req.param('invitedByUserId');
 
-                // now update the user record for the user that invited us
-                User.findOne({
-                  mySharingToken : req.param('invitedByUserId')
-                }).exec(function(err, invitinguser) {
-                  if(err) console.error('ERROR (failure on attribution for invite):', err);
-                  if(invitinguser) {
-                    console.log("inviting user email:", invitinguser.email);
-                    if(typeof invitinguser.numberFriendsJoined != "undefined") {
-                      invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
-                    } else {
-                      invitinguser.numberFriendsJoined = 1;
-                    }
-                    retNumFriends = invitinguser.numberFriendsJoined;
+                            // now update the user record for the user that invited us
+                            User.findOne({
+                                mySharingToken: req.param('invitedByUserId')
+                            }).exec(function (err, invitinguser) {
+                                if (err) console.error('ERROR (failure on attribution for invite):', err);
+                                if (invitinguser) {
+                                    console.log("inviting user email:", invitinguser.email);
+                                    if (typeof invitinguser.numberFriendsJoined != "undefined") {
+                                        invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
+                                    } else {
+                                        invitinguser.numberFriendsJoined = 1;
+                                    }
+                                    retNumFriends = invitinguser.numberFriendsJoined;
 //                                    invitinguser.friendsJoinedEmails.push(user.email);;
-                    invitinguser.save(function(err, invitinguser) {
-                      if(err) console.error("ERROR: updating inviting user record", err);
+                                    invitinguser.save(function (err, invitinguser) {
+                                        if (err) console.error("ERROR: updating inviting user record", err);
 
-                      user.save(function (err, user) {
-                        if (err) {
-                          console.error("Error: ", err);
-                          return res.serverError("Error creating new user.");
+                                        user.save(function (err, user) {
+                                            if (err) {
+                                                console.error("Error: ", err);
+                                                return res.serverError("Error creating new user.");
+                                            } else {
+                                                console.log("user:", user);
+                                            }
+
+                                            sendWelcomeMail(user, function (err) {
+                                                if (err) res.end('Error sending welcome email: ' + err)
+                                            });
+                                        });
+                                    });
+                                }
+                            });
                         } else {
-                          console.log("user:", user);
+                            retNumFriends = user.numberFriendsJoined;
+                            user.save(function (err, user) {
+                                if (err) {
+                                    console.error("Error: ", err);
+                                    return res.serverError("Error creating new user.");
+                                } else {
+                                    console.log("user:", user);
+                                }
+
+                                sendWelcomeMail(user, function (err) {
+                                    if (err) res.end('Error sending welcome email: ' + err)
+                                });
+                            });
                         }
+                    }
 
-                        sendWelcomeMail(user, function (err) {
-                          if (err) res.end('Error sending welcome email: ' + err)
-                        });
-                      });
+                    return res.view('user/share', {
+                        referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
+                        numberfriendsjoined: user.numberFriendsJoined || 0,
+                        error: ''
                     });
-                  }
-                });
-              } else {
-                retNumFriends = user.numberFriendsJoined;
-                user.save(function (err, user) {
-                  if (err) {
-                    console.error("Error: ", err);
-                    return res.serverError("Error creating new user.");
-                  } else {
-                    console.log("user:", user);
-                  }
 
-                  sendWelcomeMail(user, function (err) {
-                    if (err) res.end('Error sending welcome email: ' + err)
-                  });
                 });
-              }
             }
-
-            return res.view('user/share', {
-              referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
-              numberfriendsjoined: user.numberFriendsJoined || 0,
-              error: ''
-            });
-
-          });
         }
       });
     },
