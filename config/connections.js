@@ -47,7 +47,7 @@ module.exports.connections = {
       host: '54.172.197.109',
       port: 27017,
 //    user: 'g11baldwin',
-//    password: 'alpha88w2dpics4u',
+//    password: '',
       database: 'nodeprelaunchrdb'
   }
 
