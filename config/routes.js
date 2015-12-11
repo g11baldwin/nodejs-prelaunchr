@@ -36,13 +36,7 @@ module.exports.routes = {
       view: 'homepage'
   },
 
-    '/user/share': {
-        view: '/user/share'
-    },
-
-    '/share': {
-        view: '/user/share'
-    }
+    '/q': 'UserController.q'
 
     /***************************************************************************
   *                                                                          *
