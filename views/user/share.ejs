@@ -173,7 +173,11 @@
       <div class="">
       </div>
       <div class="" style="text-align: center;">
-        <p class="small text-center brown-fontcolor"><%= numberfriendsjoined %> friends have joined... <br>Keep checking</p>
+        <% var goodgrammar = " friends have"; %>
+        <% if(numberfriendsjoined == 1) { %>
+        <% goodgrammar = " friend has"; %>
+        <% } %>
+        <p class="small text-center brown-fontcolor"><%= numberfriendsjoined %> <%= goodgrammar %> joined... <br>Keep checking</p>
       </div>
       <div class="">
       </div>
