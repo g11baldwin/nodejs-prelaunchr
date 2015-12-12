@@ -33,7 +33,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-      view: 'homepage'
+//      view: 'homepage'
+      view: 'underconstruction'
   },
 
     '/underconstruction': {
