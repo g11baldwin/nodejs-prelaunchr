@@ -157,10 +157,8 @@ module.exports = {
             IpAddress.checkAndAddIp(req.ip, function (err, ipa) {
                 if (err) {
                     console.error("Error: too many email addresses from source IP:", req.ip);
-                    req.flash('error', 'too many email addresses from source IP');
-                    return res.view('/', {
-                        error: 'invalid email address, please try again'
-                    });
+                    req.flash('message', 'Error: Too many email addresses from same IP address.');
+                    return res.redirect('homepage');
                 } else {
                     console.log("OK to add another email to IP address:", ipa.sourceIp);
 
