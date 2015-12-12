@@ -157,8 +157,8 @@ module.exports = {
             IpAddress.checkAndAddIp(req.ip, function (err, ipa) {
                 if (err) {
                     console.error("Error: too many email addresses from source IP:", req.ip);
-                    req.flash('message', 'Error: Too many email addresses from same IP address.');
-                    return res.redirect('homepage');
+                    return res.view( 'homepage', {'message': 'Too many signups from the same IP address.' } );
+
                 } else {
                     console.log("OK to add another email to IP address:", ipa.sourceIp);
 

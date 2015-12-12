@@ -14,9 +14,6 @@
   </div>
 </nav>
 -->
-<% if (typeof message != 'undefined' && message.length > 0) { %>
-<div class="alert alert-danger"><%= message %></div>
-<% } %>
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div id="homeScreen" class="jumbotron">
@@ -93,6 +90,17 @@
     </div>
   </div>
   <hr>
+
+
+
+  <% if (typeof message != 'undefined' && message.length > 0) { %>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6"><%= message %></div>
+    <div class="col-md-3"></div>
+  </div>
+  <% } %>
+
 
 </div>
 
