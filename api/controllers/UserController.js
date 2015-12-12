@@ -19,7 +19,7 @@ var inUseStrings = [];
 var alreadyUsedIPs = [];
 
 function loadIPs() {
-    console.log("loading up IP addresses:")
+    console.log("loading up already in use IP addresses:")
     User.find({}).exec(function (err, users) {
         if (err) console.error("Error loading up user records to get IP addresses records, err:", err);
         users.forEach(function (u) {
@@ -38,6 +38,8 @@ function loadIPs() {
 }
 
 function okToUseThisIP(anip) {
+    console.log("checking if OK to us IP address:", anip);
+
     loadIPs();
     var index = _.findIndex(alreadyUsedIPs, { 'ip': anip });
     if(index == -1) {
@@ -143,7 +145,7 @@ module.exports = {
             });
 
         } else {
-
+            console.log("Check if source IP ok to use, IP:", req.ip);
             if(!okToUseThisIP(req.ip)) {
                 return res.view('user/homepage', {
                     referralurl: '',
