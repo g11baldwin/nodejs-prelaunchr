@@ -36,6 +36,10 @@ module.exports.routes = {
       view: 'homepage'
   },
 
+    '/underconstruction': {
+        view: 'underconstruction'
+    },
+
     '/q': 'UserController.q'
 
     /***************************************************************************
