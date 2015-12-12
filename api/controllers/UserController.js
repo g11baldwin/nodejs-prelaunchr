@@ -1,7 +1,16 @@
 /**
  * UserController
  *
- * @description :: Server-side logic for managing users
+ * @description :: Server-side logic for managing users.
+ *                 User life cycle is simple:
+ *                 -- new users can sign-up for Vidii
+ *                 -- when a new user signs up (determined by unique email address) the signing up user receive a code (embedded URL)
+ *                 -- The URL/code can be shared via email, Twitter or Facebook
+ *                 -- When others use that code to signup for Vidii, the original provider of the code get's credit.
+ *                 Restrictions:
+ *                 -- Only a single credit can be registered for a single email address
+ *                 -- A maximum of two emails can be registered from a single IP address
+ *
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
@@ -39,7 +48,6 @@ function loadIPs() {
 
 function okToUseThisIP(anip) {
     console.log("checking if OK to us IP address:", anip);
-
     loadIPs();
     var index = _.findIndex(alreadyUsedIPs, { 'ip': anip });
     if(index == -1) {
@@ -146,100 +154,96 @@ module.exports = {
 
         } else {
             console.log("Check if source IP ok to use, IP:", req.ip);
-            if(!okToUseThisIP(req.ip)) {
-                return res.view('user/homepage', {
-                    referralurl: '',
-                    numberfriendsjoined: 0,
-                    error: 'Maximum of 2 signups per IP address!'
-                });
-            } else {
+            IpAddress.checkAndAddIp(req.ip, function (err, ipa) {
+                if (err) {
+                    console.error("Error: too many email addresses from source IP:", req.ip);
+                    req.flash('error', 'too many email addresses from source IP');
+                    return res.view('/', {
+                        error: 'invalid email address, please try again'
+                    });
+                } else {
+                    console.log("OK to add another email to IP address:", ipa.sourceIp);
 
-                User.create(req.body, function userCreated(err, user) {
-                    if (err) {
-                        console.error("ERROR: ", err);
-                        req.flash('error', 'creating user... try again.')
-                        return res.view('/', {
-                            referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
-                            numberfriendsjoined: 0,
-                            error: 'invalid email address, please try again'
-                        });
-                    }
-
-                    if (user) {
-                        console.info("user created: ", user);
-                        user.creatorname = 'null';
-                        user.email = req.email;
-
-//              user.mySharingToken = user.id; // use our id
-
-                        user.mySharingToken = findUnusedString(); // shorten to 5 char string
-
-
-                        user.sourceIp = req.ip;
-                        user.numberFriendsJoined = 0;
-//                        user.friendsJoinedEmails = [];
-                        user.enabled = true;
-                        if (typeof req.param('invitedByUserId') != "undefined") {
-                            console.log("user created by being invited, invitedByUserId:", req.param('invitedByUserId'));
-                            user.invitedByUserId = req.param('invitedByUserId');
-
-                            // now update the user record for the user that invited us
-                            User.findOne({
-                                mySharingToken: req.param('invitedByUserId')
-                            }).exec(function (err, invitinguser) {
-                                if (err) console.error('ERROR (failure on attribution for invite):', err);
-                                if (invitinguser) {
-                                    console.log("inviting user email:", invitinguser.email);
-                                    if (typeof invitinguser.numberFriendsJoined != "undefined") {
-                                        invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
-                                    } else {
-                                        invitinguser.numberFriendsJoined = 1;
-                                    }
-                                    retNumFriends = invitinguser.numberFriendsJoined;
-//                                    invitinguser.friendsJoinedEmails.push(user.email);;
-                                    invitinguser.save(function (err, invitinguser) {
-                                        if (err) console.error("ERROR: updating inviting user record", err);
-
-                                        user.save(function (err, user) {
-                                            if (err) {
-                                                console.error("Error: ", err);
-                                                return res.serverError("Error creating new user.");
-                                            } else {
-                                                console.log("user:", user);
-                                            }
-
-                                            sendWelcomeMail(user, function (err) {
-                                                if (err) res.end('Error sending welcome email: ' + err)
-                                            });
-                                        });
-                                    });
-                                }
-                            });
-                        } else {
-                            retNumFriends = user.numberFriendsJoined;
-                            user.save(function (err, user) {
-                                if (err) {
-                                    console.error("Error: ", err);
-                                    return res.serverError("Error creating new user.");
-                                } else {
-                                    console.log("user:", user);
-                                }
-
-                                sendWelcomeMail(user, function (err) {
-                                    if (err) res.end('Error sending welcome email: ' + err)
-                                });
+                    User.create(req.body, function userCreated(err, user) {
+                        if (err) {
+                            console.error("ERROR: ", err);
+                            req.flash('error', 'creating user... try again.')
+                            return res.view('/', {
+                                referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
+                                numberfriendsjoined: 0,
+                                error: 'invalid email address, please try again'
                             });
                         }
-                    }
 
-                    return res.view('user/share', {
-                        referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
-                        numberfriendsjoined: user.numberFriendsJoined || 0,
-                        error: ''
+                        if (user) {
+                            console.info("user created: ", user);
+                            user.creatorname = 'null';
+                            user.email = req.email;
+                            user.mySharingToken = findUnusedString(); // shorten to 5 char string
+                            user.sourceIp = req.ip;
+                            user.numberFriendsJoined = 0;
+                            user.enabled = true;
+                            if (typeof req.param('invitedByUserId') != "undefined") {
+                                console.log("user created by being invited, invitedByUserId:", req.param('invitedByUserId'));
+                                user.invitedByUserId = req.param('invitedByUserId');
+
+                                // now update the user record for the user that invited us
+                                User.findOne({
+                                    mySharingToken: req.param('invitedByUserId')
+                                }).exec(function (err, invitinguser) {
+                                    if (err) console.error('ERROR (failure on attribution for invite):', err);
+                                    if (invitinguser) {
+                                        console.log("inviting user email:", invitinguser.email);
+                                        if (typeof invitinguser.numberFriendsJoined != "undefined") {
+                                            invitinguser.numberFriendsJoined = invitinguser.numberFriendsJoined + 1;
+                                        } else {
+                                            invitinguser.numberFriendsJoined = 1;
+                                        }
+                                        retNumFriends = invitinguser.numberFriendsJoined;
+                                        invitinguser.save(function (err, invitinguser) {
+                                            if (err) console.error("ERROR: updating inviting user record", err);
+
+                                            user.save(function (err, user) {
+                                                if (err) {
+                                                    console.error("Error: ", err);
+                                                    return res.serverError("Error creating new user.");
+                                                } else {
+                                                    console.log("user:", user);
+                                                }
+
+                                                sendWelcomeMail(user, function (err) {
+                                                    if (err) res.end('Error sending welcome email: ' + err)
+                                                });
+                                            });
+                                        });
+                                    }
+                                });
+                            } else {
+                                retNumFriends = user.numberFriendsJoined;
+                                user.save(function (err, user) {
+                                    if (err) {
+                                        console.error("Error: ", err);
+                                        return res.serverError("Error creating new user.");
+                                    } else {
+                                        console.log("user:", user);
+                                    }
+
+                                    sendWelcomeMail(user, function (err) {
+                                        if (err) res.end('Error sending welcome email: ' + err)
+                                    });
+                                });
+                            }
+                        }
+
+                        return res.view('user/share', {
+                            referralurl: config.referralURLbase + 'q/' + '?r=' + user.mySharingToken,
+                            numberfriendsjoined: user.numberFriendsJoined || 0,
+                            error: ''
+                        });
+
                     });
-
-                });
-            }
+                }
+            });
         }
       });
     },
