@@ -52,7 +52,7 @@ module.exports.routes = {
     '/license-agreement': {
         view: 'terms'
     },
-    
+
     '/license-agreement.html': {
         view: 'terms'
     },
