@@ -49,12 +49,24 @@ module.exports.routes = {
         view: 'terms'
     },
 
+
     '/privacy':{
         view: 'privacy'
     },
     '/privacy.html':{
         view: 'privacy'
     },
+
+
+    '/rules':{
+        view: 'rules'
+    },
+
+    '/rules.html':{
+        view: 'rules'
+    },
+
+
     '/q': 'UserController.q'
 
     /***************************************************************************
