@@ -41,6 +41,20 @@ module.exports.routes = {
         view: 'underconstruction'
     },
 
+    '/terms':{
+        view: 'terms'
+    },
+
+    '/terms.html':{
+        view: 'terms'
+    },
+
+    '/privacy':{
+        view: 'privacy'
+    },
+    '/privacy.html':{
+        view: 'privacy'
+    },
     '/q': 'UserController.q'
 
     /***************************************************************************
