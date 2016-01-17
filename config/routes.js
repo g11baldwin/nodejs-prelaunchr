@@ -49,6 +49,13 @@ module.exports.routes = {
         view: 'terms'
     },
 
+    '/license-agreement': {
+        view: 'terms'
+    },
+    
+    '/license-agreement.html': {
+        view: 'terms'
+    },
 
     '/privacy':{
         view: 'privacy'
