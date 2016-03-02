@@ -292,16 +292,19 @@ module.exports = {
      *    `/user
      */
     xrayvision: function (req, res) {
-        console.info("user list display requested");
-        User.find({}).limit(100).exec(function(err, users) {
-          if(err) return res.serverError("Error on user lookup");
-          return res.view('user/xrayvision', {
-            users: users,
-            error: ''
-          });
-
-
-        });
+        console.info("user list display requested, req.param('key')=", req.param('key'));
+        if(req.param('key') == config.secret) {
+            User.find({}).limit(1000).exec(function (err, users) {
+                if (err) return res.serverError("Error on user lookup");
+                return res.view('user/xrayvision', {
+                    users: users,
+                    error: ''
+                });
+            });
+        } else {
+            console.error('Route not found');
+            return res.status(404);
+        }
     },
 
     /**

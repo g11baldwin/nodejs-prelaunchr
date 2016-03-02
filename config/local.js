@@ -98,5 +98,5 @@ module.exports = {
         }
     },
 
-    secret: 'Not2day&Why?'
+    secret: 'not2day4whynot'
 };

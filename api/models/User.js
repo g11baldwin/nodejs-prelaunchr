@@ -13,12 +13,12 @@ module.exports = {
         username: { // use email
             type: 'string'
         },
-        password: { // no password required
+        password: { // no password required - vestigal
             type: 'string',
             minLength: 8
         },
-        confirm: { // NA
-            type: 'string',   // used to confirm password on changes
+        confirm: { // NA - vestigal
+            type: 'string',
             minLength: 8
         },
         email: {
@@ -31,7 +31,7 @@ module.exports = {
         },
         role: {
             type: 'string',
-            defaultsTo: 'user'    // either user, admin, or TBD
+            defaultsTo: 'user'    // NA - vestigal
         },
         enabled: {
             type: 'Boolean',
@@ -40,13 +40,13 @@ module.exports = {
         invitedByUserId: { // the mongo id of user that invited this user to signup (or null if they signed up w/o invite)
             type: 'string'
         },
-        mySharingToken: { // token that is given to others to associate their signup with my invite
+        mySharingToken: { // token that is given to others (embedded in a URL) to allow webapp to associate their signup with my invite
             type: 'string'
         },
-        numberFriendsJoined: {
+        numberFriendsJoined: {  // number of friends who've joined based on this user's invite
             type: 'integer'
         },
-//        friendsJoinedEmails : { // keep array of all who joined via our invite
+//        friendsJoinedEmails : { // keep array of all who joined via our invite (not implemented)
 //            type: []
 //        },
 

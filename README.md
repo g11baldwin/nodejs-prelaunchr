@@ -82,3 +82,8 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 
 - In production mode (we used **forever** as our way of keeping the app running...)
 `$ forever start app.js`
+
+
+Note: Signup stats (clickable columns would be a nice add) are accessed at http://localhost:1337/user/xrayvision
+This is not an authenticated route, so you may want to remove it and run this as a script against the db.
+
