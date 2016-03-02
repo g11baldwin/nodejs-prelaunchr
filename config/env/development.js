@@ -22,11 +22,11 @@ module.exports = {
   // }
 
 /*
-  emailFrom: 'support@vidii.co',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
+  emailFrom: 'support@yourcompany.com',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
     mailer: {
         service: 'Mailgun',  //'SERVICE_PROVIDER', // Gmail, SMTP
         auth: {
-            user: 'support@vidii.co', // 'EMAIL_ID',
+            user: 'support@yourcompany.com', // 'EMAIL_ID',
             pass: ''   // 'PASSWORD'
         }
     },

@@ -3,10 +3,10 @@
  *
  * @description :: Server-side logic for managing users.
  *                 User life cycle is simple:
- *                 -- new users can sign-up for Vidii
+ *                 -- new users can sign-up
  *                 -- when a new user signs up (determined by unique email address) the "signing up user" receives a code (embedded URL)
  *                 -- The URL/code can be shared via email, Twitter or Facebook
- *                 -- When others use that code to signup for Vidii, the original provider of the code get's credit.
+ *                 -- When others use that code to signup, the original provider of the code get's credit.
  *                 -- At the end of the sign up period, the signed up users can win prizes for various signup levels
  *                 Restrictions:
  *                 -- Only a single credit can be awarded for a single email address
@@ -97,10 +97,10 @@ function sendWelcomeMail(user) {
     var transport = nodemailer.createTransport(config.mailer);
 
     var mailOptions = {
-        from: 'Vidii support <' +  config.mailer.auth.user  +'>',
+        from: 'Support <' +  config.mailer.auth.user  +'>',
         to: user.email,
-        subject: "Welcome to Vidii!",
-        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the Vidii rewards program! This program allows you to invite friends to join you on Vidii, and accumulate award points. Your share code is: " + config.referralURLbase + 'q/' + '?r=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the vidii.co page and entering your email address). " + '\n\n' + "The Vidii team"
+        subject: "Welcome!",
+        text: "Hi " + user.email + ",\n\nCongratulations, you are now registered with the rewards program! This program allows you to invite friends to join you, and accumulate award points. Your share code is: " + config.referralURLbase + 'q/' + '?r=' + user.mySharingToken +  '\n' + "Please share this code with your friends and when they sign up you'll acumulate award points (you can check how you're doing by returning to the signup page and entering your email address). " + '\n\n' + "Thanks!"
     };
 
     transport.sendMail(mailOptions, function(err, response) {

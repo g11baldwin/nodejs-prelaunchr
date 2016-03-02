@@ -7,41 +7,55 @@
 The nodeprelaunchr webapp is a Nodejs version of the **Harry's (shave club)** Rails prelaunchr webapp. 
 The [original app is here](https://github.com/harrystech/prelaunchr).  The switch to Node was made because 
 our other webapps were also based on Node/mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
-it's a quick and easy way to get a webapp up and running.
+it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's and the Sails teams!
 
-The webapps primary function is to allow potential new [app] users to signup prior to launching an
-app. As people sign up, using an email address, they are provided with a unique code, that is encoded 
-in a URL. This URL can then be shared with friends, and if/when their friends click the URL, they are
-directed to the webapp, and if they sign up, then the person who invited them, get's "credit".
+##### Functionality
 
-Credits are accumulated and, in our case, awards are provided for users reaching various quantities of 
-credits. 
+The webapps primary function is to allow people to signup for a mobile app prior to the app launching. As 
+people sign up using an email address, they are provided with a unique code that is embedded in a URL. This URL 
+can then be shared with friends via Facebook, Twitter, email or other social media. If/when their friends click the 
+URL, they are directed to the webapp, and if they sign up, then the person who invited them, get's "credit", and they 
+get their own code to share.
+Credits are accumulated by those people doing the invites, and in our case, awards are provided for users reaching 
+various quantities of credits. 
 
+**Some key points:**
 
+**Email addresses** - an email address can only be used for a single sign up. Additionally, email uses 
+are idempotent, so if an email address is re-entered, e.g. somebody attempts to sign up twice with same email address, 
+they're only signed up once, and the same URL/token is returned on the initial and subsequent signups.
 
-
-##### Behavior / Restrictions:
-1. **Email addresses are unique** - email address uses are idempotent, so if an email address is re-entered, 
-e.g. somebody signs up twice with same email address, they are only signed up once, and the same URL/token 
-that was origninally returned is returned on subsequent signups, whether it's the same person or not. 
-
-2. **Source IP controlling** - a simple source IP limiting is done regardless of the email address provided.  
+**Source IP controlling** - a simple source IP limiting is done regardless of the email address provided.  
 Currently the system allows a maximum of 2 signups from the same IP address. 
 
+**Prize levels** - prize levels can be set as desired.
 
 
 
 ##### Configuration
-1. **Port mapping**
-The app is a typical sails app in that it listens on port 1337. The app can be configured to use port 80 or port
+**Port mapping**
+The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
 443, for http or https, respectively. We ran it behind a LB (load balancer) using https, and had the LB do the 
 port mapping, i.e. we ran the app on port 1337, and had the LB route port 80 and port 443 traffic to port 1337. 
 
-2. **Database**
+**Database**
 We used mongodb behind the app (Sails can handle several different dbs via the Waterline ORM). Our config info 
-is scrubbed, so you'll need to add your own mongodb config.
+is scrubbed, so you'll need to add your own mongodb config. You will need to configure the Mongo database in the
+ local/connections.js file.
 
+**Email**
+Email's are sent to users when they sign up welcoming them to our **app**. The email also contains the URL described
+ above that contains an invite code. The email framework is provided by **nodemailer**, which has direct support for
+ Mailgun, Gmail, and many other common email senders. You will need to configure nodemailer in the config/local.js file.
 
+**Award levels**
+The award levels are based on the number of friends invited who signup. These levels can be configured in the 
+views/user/share.ejs and views/user/share-javascript files. Additionally, the tooltip images are configurable, but 
+you are welcome to use the ones provided.
+
+**Social media**
+We support Twitter and Facebook sharing, allowing a user to post once they've registered. The account information
+will need to be updated to utilize your accounts.
 
 
 ##### Licensing
@@ -64,5 +78,5 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 `$ node app.js`
 
 
-- In production mode:
+- In production mode (we used **forever** as our way of keeping the app running...)
 `$ forever start app.js`
