@@ -39,6 +39,18 @@ port mapping, i.e. we ran the app on port 1337, and had the LB route port 80 and
 We used mongodb behind the app (Sails can handle several different dbs via the Waterline ORM). Our config info 
 is scrubbed, so you'll need to add your own mongodb config.
 
+
+##### Licensing
+This web application is derived from the Harry's "prelaunchr" webapp and as such, is licensed under the same terms as 
+they provided. The code, documentation, non-branded copy and configuration are released under the MIT license. 
+Any branded assets are included only to illustrate and inspire. Please change the artwork to use your own brand! 
+We have attempted to remove any reference to Harry's in the web application; however, in the case we have missed 
+sometihng, Harry's does not give you permission to use their brand or trademarks in your own marketing. In a similar
+way, Vidicons does not give you permission to use our brand or trademarks in your marketing.
+
+
+
+
 ------------------------------------------------------------------------
 
 ##### Running the app
