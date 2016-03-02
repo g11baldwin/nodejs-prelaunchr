@@ -32,12 +32,12 @@ Currently the system allows a maximum of 2 signups from the same IP address.
 ##### Configuration
 1. **Port mapping**
 The app is a typical sails app in that it listens on port 1337. The app can be configured to use port 80 or port
-443, for http or https, respectively. We actually ran it behind a LB (load balancer) using https, and had the LB
-do the port mapping. 
+443, for http or https, respectively. We ran it behind a LB (load balancer) using https, and had the LB do the 
+port mapping, i.e. we ran the app on port 1337, and had the LB route port 80 and port 443 traffic to port 1337. 
 
 2. **Database**
-We used mongodb behind the app (Sails can handle several different dbs via the Waterline ORM). Our config 
-is scrubbed, so you'll need to modify 
+We used mongodb behind the app (Sails can handle several different dbs via the Waterline ORM). Our config info 
+is scrubbed, so you'll need to add your own mongodb config.
 
 ------------------------------------------------------------------------
 
