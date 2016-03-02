@@ -66,8 +66,7 @@ module.exports = {
 
   // port: process.env.PORT || 1337,
 
-  referralURLbase: 'http://vidii.co/',
-//  referralURLbase: 'http://localhost:1337/',
+  referralURLbase: 'http://localhost:1337/',
   /***************************************************************************
    * The runtime "environment" of your Sails app is either typically         *
    * 'development' or 'production'.                                          *
@@ -88,15 +87,16 @@ module.exports = {
 
   environment: process.env.NODE_ENV || 'development',
 
+    emailFrom: 'admin@yourdomain.com',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
+    replyTo: 'user@yourdomain.com',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
 
-  emailFrom: 'support@vidii.co',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
-  mailer: {
-    service: 'Gmail',  //'SERVICE_PROVIDER', // Gmail, SMTP
-    auth: {
-      user: 'support@vidii.co', // 'EMAIL_ID',
-      pass: 'junk4$&yet7#Luck'   // 'PASSWORD'
-    }
-  },
-  secret: 'TokenNot2day'
+    mailer: {
+        service: 'Mailgun',  //'SERVICE_PROVIDER', // Gmail, SMTP
+        auth: {
+            user: 'user@yourdomain.com', // 'EMAIL_ID',
+            pass: 'yourpassword'   // 'PASSWORD'
+        }
+    },
 
+    secret: 'Not2day&Why?'
 };

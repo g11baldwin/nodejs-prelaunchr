@@ -33,8 +33,8 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': {
-//      view: 'homepage'
-      view: 'underconstruction'
+      view: 'homepage'
+//      view: 'underconstruction'  // NB - this route as used (as default) during the wait time; and was to display an under construction webpage w/ a count down timer
   },
 
     '/underconstruction': {
@@ -76,7 +76,7 @@ module.exports.routes = {
 
     '/q': 'UserController.q'
 
-    /***************************************************************************
+ /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
   *                                                                          *

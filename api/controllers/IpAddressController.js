@@ -1,13 +1,13 @@
-/**
- * UserController
+/* ----------------------------------------------------------------------------------------
+ * Server Side Logic - IpAddressController
  *
- * @description :: Server-side logic for managing users
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * @description :: Simple logic for limiting the number of signups from a given IP address.
+ * @help        :: TODO add docs
+ * ----------------------------------------------------------------------------------------
  */
 
 
-
-var config = require("../../config/local-local.js"),
+var config = require("../../config/local.js"),
     _ = require('lodash');
 
 

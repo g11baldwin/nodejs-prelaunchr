@@ -1,22 +1,22 @@
-/**
- * UserController
+/** ----------------------------------------------------------------------------------------
+ * Server Side Logic - UserController
  *
  * @description :: Server-side logic for managing users.
  *                 User life cycle is simple:
  *                 -- new users can sign-up for Vidii
- *                 -- when a new user signs up (determined by unique email address) the signing up user receive a code (embedded URL)
+ *                 -- when a new user signs up (determined by unique email address) the "signing up user" receives a code (embedded URL)
  *                 -- The URL/code can be shared via email, Twitter or Facebook
  *                 -- When others use that code to signup for Vidii, the original provider of the code get's credit.
+ *                 -- At the end of the sign up period, the signed up users can win prizes for various signup levels
  *                 Restrictions:
- *                 -- Only a single credit can be registered for a single email address
+ *                 -- Only a single credit can be awarded for a single email address
  *                 -- A maximum of two emails can be registered from a single IP address
  *
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * ----------------------------------------------------------------------------------------
  */
 
-
-
-var config = require("../../config/local-local.js"),
+var config = require("../../config/local.js"),
     uuid = require('uuid'),
     nodemailer = require('nodemailer'),
     _ = require('lodash'),
@@ -90,7 +90,7 @@ function findUnusedString() {
 
 
 /**
- * Send welcome
+ * Send welcome email
  */
 function sendWelcomeMail(user) {
     console.log('Sending welcome email to new user:', user.email);

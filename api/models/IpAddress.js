@@ -1,8 +1,8 @@
 /**
 * IpAddress.js
 *
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
+ * @description :: Module that limits the number of signups from a given source IP address.
+ * @docs        :: TODO: add more doc
 */
 
 module.exports = {

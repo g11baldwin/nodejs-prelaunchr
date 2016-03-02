@@ -24,10 +24,10 @@ module.exports = {
 /*
   emailFrom: 'support@vidii.co',  //'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
     mailer: {
-        service: 'Gmail',  //'SERVICE_PROVIDER', // Gmail, SMTP
+        service: 'Mailgun',  //'SERVICE_PROVIDER', // Gmail, SMTP
         auth: {
             user: 'support@vidii.co', // 'EMAIL_ID',
-            pass: 'junk4$&yet7#Luck'   // 'PASSWORD'
+            pass: ''   // 'PASSWORD'
         }
     },
     secret: 'TokenNot2day',
