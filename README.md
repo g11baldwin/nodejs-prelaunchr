@@ -19,16 +19,18 @@ get their own code to share.
 Credits are accumulated by those people doing the invites, and in our case, awards are provided for users reaching 
 various quantities of credits. 
 
-**Some key points:**
+
+**Some notes:**
 
 **Email addresses** - an email address can only be used for a single sign up. Additionally, email uses 
 are idempotent, so if an email address is re-entered, e.g. somebody attempts to sign up twice with same email address, 
 they're only signed up once, and the same URL/token is returned on the initial and subsequent signups.
 
-**Source IP controlling** - a simple source IP limiting is done regardless of the email address provided.  
-Currently the system allows a maximum of 2 signups from the same IP address. 
+**Source IP limiting** - a simple source IP limiting is done to limit the number of signups from a given IP
+ address, regardless of the email address provided. Currently the system allows a maximum of 2 signups from the same 
+ IP address.  
 
-**Prize levels** - prize levels can be set as desired.
+**Prize levels** - prize levels can be set as desired. 
 
 
 
