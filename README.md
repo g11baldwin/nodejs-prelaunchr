@@ -37,27 +37,27 @@ they're only signed up once, and the same URL/token is returned on the initial a
 ##### Configuration
 **Port mapping**
 The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
-443, for http or https, respectively. We ran it behind a LB (load balancer) using https, and had the LB do the 
-port mapping, i.e. we ran the app on port 1337, and had the LB route port 80 and port 443 traffic to port 1337. 
+443, for http or https, respectively. We ran it behind a LB (load balancer) and had the LB do the port mapping,
+we ran the app on port 1337, and had the LB route port 80 and port 443 traffic to port 1337. 
 
 **Database**
 We used mongodb behind the app (Sails can handle several different dbs via the Waterline ORM). Our config info 
-is scrubbed, so you'll need to add your own mongodb config. You will need to configure the Mongo database in the
- local/connections.js file.
+is scrubbed, so you'll need to add your own mongodb config. *Mongo database configuration is done in the
+ local/connections.js file*.
 
 **Email**
 Email's are sent to users when they sign up welcoming them to our **app**. The email also contains the URL described
  above that contains an invite code. The email framework is provided by **nodemailer**, which has direct support for
- Mailgun, Gmail, and many other common email senders. You will need to configure nodemailer in the config/local.js file.
+ Mailgun, Gmail, and many other common email senders. *Nodemailer configuration is done in the config/local.js file.*
 
 **Award levels**
-The award levels are based on the number of friends invited who signup. These levels can be configured in the 
-views/user/share.ejs and views/user/share-javascript files. Additionally, the tooltip images are configurable, but 
+The award levels are based on the number of friends invited who signup. *These levels can be configured in the 
+views/user/share.ejs and views/user/share-javascript files.* Additionally, the tooltip images are configurable, but 
 you are welcome to use the ones provided.
 
 **Social media**
-We support Twitter and Facebook sharing, allowing a user to post once they've registered. The account information
-will need to be updated to utilize your accounts.
+We support Twitter and Facebook sharing, allowing a user to post once they've registered. *The account information
+will need to be updated to utilize your accounts.*
 
 
 ##### Licensing
@@ -84,6 +84,14 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 `$ forever start app.js`
 
 
-Note: Signup stats (clickable columns would be a nice add) are accessed at http://localhost:1337/user/xrayvision
-This is not an authenticated route, so you may want to remove it and run this as a script against the db.
+##### When signup is complete (post-processing)
+
+Signup stats (clickable columns would be a nice add) are accessed at the URL: 
+
+http://localhost:1337/user/xrayvision/?key=secret
+
+*where secret is defined in config/local.js file and the secret var*
+
+Note: While the key is validated, this is not an authenticated route, so you may want to remove the route and run 
+this as a script against the db.
 
