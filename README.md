@@ -15,8 +15,8 @@ it's a quick and easy way to get a webapp up and running. Our thanks to both the
 The webapps primary function is to allow people to signup for a mobile app prior to the app launching. As 
 people sign up using an email address, they are provided with a unique code that is embedded in a URL. This URL 
 can then be shared with friends via Facebook, Twitter, email or other social media. If/when their friends click the 
-URL, they are directed to the webapp, and if they sign up, then the person who invited them, get's "credit", and they 
-get their own code to share.
+URL, they are directed to the webapp, and if they sign up, then the person who invited them, get's "credit", and *the 
+newly signed up person* receives their own code to share.
 Credits are accumulated by those people doing the invites, and in our case, awards are provided for users reaching 
 various quantities of credits. 
 
@@ -35,7 +35,7 @@ they're only signed up once, and the same URL/token is returned on the initial a
 
 
 ------------------------------------------------------------------------
-##### Configuration
+#### Configuration
 **Port mapping**
 The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
 443, for http or https, respectively. We ran it behind a LB (load balancer) and had the LB do the port mapping,
