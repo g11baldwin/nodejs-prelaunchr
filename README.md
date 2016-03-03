@@ -1,13 +1,13 @@
 # nodeprelaunchr
 
 ---------------------------------------------------------------------
-
-### Overview
+#### Overview
 
 The nodeprelaunchr webapp is a Nodejs version of the **Harry's (shave club)** Rails prelaunchr webapp. 
 The [original app is here](https://github.com/harrystech/prelaunchr).  The switch to Node was made because 
 our other webapps were also based on Node/mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
 it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's and the Sails teams!
+
 
 ------------------------------------------------------------------------
 #### Functionality
@@ -61,6 +61,7 @@ We support Twitter and Facebook sharing, allowing a user to post once they've re
 will need to be updated to utilize your accounts.*
 
 
+------------------------------------------------------------------------
 #### Licensing
 This web application is derived from the Harry's "prelaunchr" webapp and as such, is licensed under the same terms as 
 they provided. Specifically, the license is:
@@ -74,7 +75,6 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 
 
 ------------------------------------------------------------------------
-
 #### Running the app
 
 - In development mode:
