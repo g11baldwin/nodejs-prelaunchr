@@ -9,7 +9,8 @@ The [original app is here](https://github.com/harrystech/prelaunchr).  The switc
 our other webapps were also based on Node/mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
 it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's and the Sails teams!
 
-##### Functionality
+------------------------------------------------------------------------
+#### Functionality
 
 The webapps primary function is to allow people to signup for a mobile app prior to the app launching. As 
 people sign up using an email address, they are provided with a unique code that is embedded in a URL. This URL 
@@ -33,7 +34,7 @@ they're only signed up once, and the same URL/token is returned on the initial a
 **Prize levels** - prize levels can be set as desired. 
 
 
-
+------------------------------------------------------------------------
 ##### Configuration
 **Port mapping**
 The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
@@ -60,7 +61,7 @@ We support Twitter and Facebook sharing, allowing a user to post once they've re
 will need to be updated to utilize your accounts.*
 
 
-##### Licensing
+#### Licensing
 This web application is derived from the Harry's "prelaunchr" webapp and as such, is licensed under the same terms as 
 they provided. Specifically, the license is:
 
@@ -74,7 +75,7 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 
 ------------------------------------------------------------------------
 
-##### Running the app
+#### Running the app
 
 - In development mode:
 `$ node app.js`
@@ -83,8 +84,8 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 - In production mode (we used **forever** as our way of keeping the app running...)
 `$ forever start app.js`
 
-
-##### When signup is complete (post-processing)
+------------------------------------------------------------------------
+#### When signup is complete (post-processing)
 
 Signup stats (clickable columns would be a nice add) are accessed at the URL: 
 
