@@ -4,9 +4,11 @@
 #### Overview
 
 The nodejs-prelaunchr webapp is a *node.js* version of the **Harry's (shave club)** Rails prelaunchr webapp. 
-The [original app is here](https://github.com/harrystech/prelaunchr).  Our switch to Node was made because 
-our other webapps were also based on Node/Mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
-it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's and the Sails teams!
+The [original app is here](https://github.com/harrystech/prelaunchr).  Our version implements most of the 
+functionality of the original, but there are some small differences. 
+Our switch to Node was made because our other webapps were also based on Node/Mongodb. The [Sails](http://sailsjs.org) 
+framework was chosen because it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's 
+and the Sails teams!
 
 
 ------------------------------------------------------------------------
@@ -36,6 +38,9 @@ they're only signed up once, and the same URL/token is returned on the initial a
 
 ------------------------------------------------------------------------
 #### Configuration
+**Sails**
+You will need to install the sails package. [Visit their getting started page at](http://sailsjs.org/get-started).
+
 **Port mapping**
 The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
 443, for http or https, respectively. We ran it behind a LB (load balancer) and had the LB do the port mapping,
@@ -77,8 +82,8 @@ In a similar way, Vidicons does not give you permission to use our brand or trad
 ------------------------------------------------------------------------
 #### Running the app
 
-- In development mode:
-`$ node app.js`
+- In development mode (from root dir of project):
+`$ sails lift`
 
 
 - In production mode (we used **forever** as our way of keeping the app running...)
