@@ -1,11 +1,11 @@
-# nodeprelaunchr
+# nodejs-prelaunchr
 
 ---------------------------------------------------------------------
 #### Overview
 
-The nodeprelaunchr webapp is a Nodejs version of the **Harry's (shave club)** Rails prelaunchr webapp. 
-The [original app is here](https://github.com/harrystech/prelaunchr).  The switch to Node was made because 
-our other webapps were also based on Node/mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
+The nodejs-prelaunchr webapp is a *node.js* version of the **Harry's (shave club)** Rails prelaunchr webapp. 
+The [original app is here](https://github.com/harrystech/prelaunchr).  Our switch to Node was made because 
+our other webapps were also based on Node/Mongodb. The [Sails](http://sailsjs.org) framework was chosen because 
 it's a quick and easy way to get a webapp up and running. Our thanks to both the Harry's and the Sails teams!
 
 
@@ -47,8 +47,8 @@ is scrubbed, so you'll need to add your own mongodb config. *Mongo database conf
  local/connections.js file*.
 
 **Email**
-Email's are sent to users when they sign up welcoming them to our **app**. The email also contains the URL described
- above that contains an invite code. The email framework is provided by **nodemailer**, which has direct support for
+Email's are sent to users when they sign up welcoming them to our *app*. The email also contains the URL described
+ above that contains an invite code. The email framework is provided by *nodemailer*, which has direct support for
  Mailgun, Gmail, and many other common email senders. *Nodemailer configuration is done in the config/local.js file.*
 
 **Award levels**
@@ -93,6 +93,6 @@ http://localhost:1337/user/xrayvision/?key=secret
 
 *where secret is defined in config/local.js file and the secret var*
 
-Note: While the key is validated, this is not an authenticated route, so you may want to remove the route and run 
-this as a script against the db.
+Note: While the *key* is validated when the route is hit, the user is not authenticated, so you may want to remove 
+the route and run this as a script against the db.
 
