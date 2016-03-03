@@ -1,0 +1,57 @@
+
+  <div class="container clearfix">
+    <div class="page-header">
+    </div>
+
+    <div class="table-responsive">
+      <table id="usertable" class="table table-condensed table-bordered table-striped">
+        <thead>
+        <tr>
+          <th><p>Id</p></th>
+          <th><p>Email</p></th>
+          <th><p>Date Joined</p></th>
+          <th><p>Invited By User w/ Token</p></th>
+          <th><p>Number Friends Joined</p></th>
+          <th><p>IP addr joined from</p></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if(users) { %>
+        <% _.each(users, function (user) { %>
+        <tr font-size="9px">
+          <td><%= user.id %></td>
+          <td><%= user.email %></td>
+          <td><%= user.createdAt %></td>
+          <td><%= user.invitedByUserId %></td>
+          <td><%= user.numberFriendsJoined %></td>
+          <td><%= user.sourceIp %></td>
+        </tr>
+        <% }) %>
+        <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+<!-- SCRIPTS -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.0.3.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#usertable').dataTable()
+  });
+
+  setTimeout(function(){
+    window.location.reload(1);
+  }, 600000);
+
+  $(document).ready(function(){
+    setTimeout();
+  });
+</script>

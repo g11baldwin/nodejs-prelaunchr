@@ -74,7 +74,9 @@ module.exports.routes = {
     },
 
 
-    '/q': 'UserController.q'
+    '/q': 'UserController.q',
+
+    '/xrayvision': 'UserController.xrayvision'
 
  /***************************************************************************
   *                                                                          *
