@@ -39,7 +39,7 @@ they're only signed up once, and the same URL/token is returned on the initial a
 ------------------------------------------------------------------------
 #### Configuration
 **Sails**
-You will need to install the sails package. [Visit their getting started page at](http://sailsjs.org/get-started).
+You will need to install the sails package. [Visit their getting started page.](http://sailsjs.org/get-started).
 
 **Port mapping**
 The app is a typical Sails app in that it listens on port 1337. The app can be configured to use port 80 or port
